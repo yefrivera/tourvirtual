@@ -36,7 +36,7 @@ function init() {
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(1, 32, 32); 
-    sphereGeometry.scale(1,  -1, 1); 
+    sphereGeometry.scale(1, -1, 1); 
     const sphere = new THREE.Mesh(sphereGeometry, material);
     scene.add(sphere);
 
