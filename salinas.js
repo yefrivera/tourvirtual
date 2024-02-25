@@ -52,9 +52,9 @@ function onWindowResize() {
 }
 
 function onDeviceOrientationChange(event) {
-    const alpha = event.alpha;
-    const beta = event.beta;
-    const gamma = event.gamma;
+    const alpha = event.alpha || 0;
+    const beta = event.beta || 0;
+    const gamma = event.gamma || 0;
 
     const alphaRad = (alpha * Math.PI) / 180;
     const betaRad = (beta * Math.PI) / 180;
