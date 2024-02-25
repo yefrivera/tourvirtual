@@ -56,12 +56,14 @@ function onDeviceOrientationChange(event) {
     const beta = event.beta;
     const gamma = event.gamma;
 
-    const angle = (beta / 180) * Math.PI; // Convertimos el ángulo beta (inclinación hacia arriba/abajo) a radianes
+    const alphaRad = (alpha * Math.PI) / 180;
+    const betaRad = (beta * Math.PI) / 180;
+    const gammaRad = (gamma * Math.PI) / 180;
 
-    // Ajusta el ángulo para que el movimiento se sienta más natural
-    const adjustedAngle = angle - Math.PI / 2;
+    const rotationMatrix = new THREE.Matrix4();
+    rotationMatrix.makeRotationFromEuler(new THREE.Euler(betaRad, alphaRad, -gammaRad, 'XYZ'));
 
-    sphere.rotation.y = adjustedAngle;
+    sphere.quaternion.setFromRotationMatrix(rotationMatrix);
 }
 
 function animate() {
