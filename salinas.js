@@ -11,18 +11,16 @@ animate();
 function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight );
     renderer.xr.enabled = true;
     renderer.xr.setReferenceSpaceType('local');
-    renderer.xr.getCamera(camera);
-
     document.body.appendChild(renderer.domElement);
 
     document.body.appendChild(VRButton.createButton(renderer));
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     camera.layers.enable(1);
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
@@ -31,12 +29,17 @@ function init() {
     const texture = getTextureFromImage('./textures/salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-
     const skySphere = new THREE.Mesh(sphereGeometry, material);
     skySphere.layers.set(1);
     scene.add(skySphere);
-
     window.addEventListener('resize', onWindowResize);
+
+    const materialR = new THREE.MeshBasicMaterial({ map: texture });
+    const skySphereR = new THREE.Mesh(sphereGeometry, materialR);
+    skySphereR.layers.set(2);
+    scene.add(skySphereR);
+    window.addEventListener('resize', onWindowResize);
+
 }
 
 function getTextureFromImage(imageUrl) {
