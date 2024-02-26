@@ -14,6 +14,8 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
     renderer.xr.setReferenceSpaceType('local');
+    renderer.xr.getCamera(camera);
+
     document.body.appendChild(renderer.domElement);
 
     document.body.appendChild(VRButton.createButton(renderer));
