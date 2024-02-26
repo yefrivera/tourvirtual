@@ -28,44 +28,31 @@ function init() {
 
     const texture = getTextureFromImage('textures/salinas - copia.jpg');
 
-    const materials = [];
+    const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    for (let i = 0; i < 6; i++) {
-        materials.push(new THREE.MeshBasicMaterial({ map: textures[i] }));
-    }
 
-    const skySphere = new THREE.Mesh(sphereGeometry, materials);
+    const skySphere = new THREE.Mesh(sphereGeometry, material);
     skySphere.layers.set(1);
     scene.add(skySphere);
 
     window.addEventListener('resize', onWindowResize);
 }
 
-function getTextureFromImage(imageUrl, tilesNum) {
-    const textures = [];
-
-    for (let i = 0; i < tilesNum; i++) {
-        textures[i] = new THREE.Texture();
-    }
+function getTextureFromImage(imageUrl) {
+    const texture = new THREE.Texture();
 
     const loader = new THREE.ImageLoader();
     loader.load(imageUrl, function (imageObj) {
-        let canvas, context;
-        const tileWidth = imageObj.height;
-
-        for (let i = 0; i < textures.length; i++) {
-            canvas = document.createElement('canvas');
-            context = canvas.getContext('2d');
-            canvas.height = tileWidth;
-            canvas.width = tileWidth;
-            context.drawImage(imageObj, tileWidth * i, 0, tileWidth, tileWidth, 0, 0, tileWidth, tileWidth);
-            textures[i].colorSpace = THREE.SRGBColorSpace;
-            textures[i].image = canvas;
-            textures[i].needsUpdate = true;
-        }
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = imageObj.height;
+        canvas.width = imageObj.width;
+        context.drawImage(imageObj, 0, 0);
+        texture.image = canvas;
+        texture.needsUpdate = true;
     });
 
-    return textures;
+    return texture;
 }
 
 function onWindowResize() {
