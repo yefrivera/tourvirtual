@@ -24,9 +24,9 @@ function init() {
     camera.layers.enable(1);
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(-1, 1, 1); // Invertir la geometría para que el usuario esté dentro de la esfera
+    sphereGeometry.scale(1, -1, 1); // Invertir la geometría para que el usuario esté dentro de la esfera
 
-    const textures = getTexturesFromAtlasFile('textures/salinas.jpg', 12);
+    const texture = getTextureFromImage('textures/salinas - copia.jpg');
 
     const materials = [];
 
@@ -41,7 +41,7 @@ function init() {
     window.addEventListener('resize', onWindowResize);
 }
 
-function getTexturesFromAtlasFile(atlasImgUrl, tilesNum) {
+function getTextureFromImage(imageUrl, tilesNum) {
     const textures = [];
 
     for (let i = 0; i < tilesNum; i++) {
@@ -49,7 +49,7 @@ function getTexturesFromAtlasFile(atlasImgUrl, tilesNum) {
     }
 
     const loader = new THREE.ImageLoader();
-    loader.load(atlasImgUrl, function (imageObj) {
+    loader.load(imageUrl, function (imageObj) {
         let canvas, context;
         const tileWidth = imageObj.height;
 
