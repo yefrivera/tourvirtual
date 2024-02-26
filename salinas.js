@@ -1,75 +1,112 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
-let camera, renderer, scene;
-let sphere;
 
-init();
-animate();
+let camera, scene, renderer, sphere, clock;
 
-function init() {
-    const container = document.getElementById('container');
+			init();
+			animate();
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+			function init() {
 
-    scene = new THREE.Scene();
+				const container = document.getElementById( 'container' );
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+				clock = new THREE.Clock();
 
-    const texture = getTextureFromImage('textures/salinas - copia.jpg');
-    const material = new THREE.MeshBasicMaterial({ map: texture });
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0x101010 );
 
-    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-    sphereGeometry.scale(-1, 1, 1);
-    sphere = new THREE.Mesh(sphereGeometry, material);
-    scene.add(sphere);
+				const light = new THREE.AmbientLight( 0xffffff, 3 );
+				scene.add( light );
 
-    //
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 2000 );
+				scene.add( camera );
 
-    window.addEventListener('resize', onWindowResize);
+				// Create the panoramic sphere geometery
+				const panoSphereGeo = new THREE.SphereGeometry( 6, 256, 256 );
 
-    if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', onDeviceOrientationChange);
-    } else {
-        console.error('DeviceOrientationEvent is not supported');
-    }
-}
+				// Create the panoramic sphere material
+				const panoSphereMat = new THREE.MeshStandardMaterial( {
+					side: THREE.BackSide,
+					displacementScale: - 4.0
+				} );
 
-function getTextureFromImage(imageUrl) {
-    const texture = new THREE.TextureLoader().load(imageUrl);
-    texture.encoding = THREE.sRGBEncoding;
-    texture.flipY = false;
+				// Create the panoramic sphere mesh
+				sphere = new THREE.Mesh( panoSphereGeo, panoSphereMat );
 
-    return texture;
-}
+				// Load and assign the texture and depth map
+				const manager = new THREE.LoadingManager();
+				const loader = new THREE.TextureLoader( manager );
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
+				loader.load( './salinas.jpg', function ( texture ) {
 
-function onDeviceOrientationChange(event) {
-    const alpha = event.alpha || 0;
-    const beta = event.beta || 0;
-    const gamma = event.gamma || 0;
+					texture.colorSpace = THREE.SRGBColorSpace;
+					texture.minFilter = THREE.NearestFilter;
+					texture.generateMipmaps = false;
+					sphere.material.map = texture;
 
-    const alphaRad = (alpha * Math.PI) / 180;
-    const betaRad = (beta * Math.PI) / 180;
-    const gammaRad = (gamma * Math.PI) / 180;
+				} );
 
-    const rotationMatrix = new THREE.Matrix4();
-    rotationMatrix.makeRotationFromEuler(new THREE.Euler(betaRad, alphaRad, -gammaRad, 'XYZ'));
+				loader.load( './textures/salinas.jpg', function ( depth ) {
 
-    sphere.quaternion.setFromRotationMatrix(rotationMatrix);
-}
+					depth.minFilter = THREE.NearestFilter;
+					depth.generateMipmaps = false;
+					sphere.material.displacementMap = depth;
 
-function animate() {
-    renderer.setAnimationLoop(render);
-}
+				} );
 
-function render() {
-    renderer.render(scene, camera);
-}
+				// On load complete add the panoramic sphere to the scene
+				manager.onLoad = function () {
+
+					scene.add( sphere );
+
+				};
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.xr.enabled = true;
+				renderer.xr.setReferenceSpaceType( 'local' );
+				container.appendChild( renderer.domElement );
+
+				document.body.appendChild( VRButton.createButton( renderer ) );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function animate() {
+
+				renderer.setAnimationLoop( render );
+
+			}
+
+			function render() {
+
+				// If we are not presenting move the camera a little so the effect is visible
+
+				if ( renderer.xr.isPresenting === false ) {
+
+					const time = clock.getElapsedTime();
+
+					sphere.rotation.y += 0.001;
+					sphere.position.x = Math.sin( time ) * 0.2;
+					sphere.position.z = Math.cos( time ) * 0.2;
+
+				}
+
+				renderer.render( scene, camera );
+
+			}
+        
