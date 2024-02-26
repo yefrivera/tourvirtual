@@ -2,111 +2,118 @@ import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 
-let camera, scene, renderer, sphere, clock;
+let camera;
+let renderer;
+let scene;
 
-			init();
-			animate();
+init();
+animate();
 
-			function init() {
+function init() {
 
-				const container = document.getElementById( 'container' );
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.xr.enabled = true;
+    renderer.xr.setReferenceSpaceType( 'local' );
+    document.body.appendChild( renderer.domElement );
 
-				clock = new THREE.Clock();
+    document.body.appendChild( VRButton.createButton( renderer ) );
 
-				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0x101010 );
+    //
 
-				const light = new THREE.AmbientLight( 0xffffff, 3 );
-				scene.add( light );
+    scene = new THREE.Scene();
 
-				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 2000 );
-				scene.add( camera );
+    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+    camera.layers.enable( 1 );
 
-				// Create the panoramic sphere geometery
-				const panoSphereGeo = new THREE.SphereGeometry( 6, 256, 256 );
+    const geometry = new THREE.BoxGeometry( 100, 100, 100 );
+    geometry.scale( 1, 1, - 1 );
 
-				// Create the panoramic sphere material
-				const panoSphereMat = new THREE.MeshStandardMaterial( {
-					side: THREE.BackSide,
-					displacementScale: - 4.0
-				} );
+    const textures = getTexturesFromAtlasFile( 'textures/salinas.jpg', 12 );
 
-				// Create the panoramic sphere mesh
-				sphere = new THREE.Mesh( panoSphereGeo, panoSphereMat );
+    const materials = [];
 
-				// Load and assign the texture and depth map
-				const manager = new THREE.LoadingManager();
-				const loader = new THREE.TextureLoader( manager );
+    for ( let i = 0; i < 6; i ++ ) {
 
-				loader.load( './salinas.jpg', function ( texture ) {
+        materials.push( new THREE.MeshBasicMaterial( { map: textures[ i ] } ) );
 
-					texture.colorSpace = THREE.SRGBColorSpace;
-					texture.minFilter = THREE.NearestFilter;
-					texture.generateMipmaps = false;
-					sphere.material.map = texture;
+    }
 
-				} );
+    const skyBox = new THREE.Mesh( geometry, materials );
+    skyBox.layers.set( 1 );
+    scene.add( skyBox );
 
-				loader.load( './textures/salinas.jpg', function ( depth ) {
 
-					depth.minFilter = THREE.NearestFilter;
-					depth.generateMipmaps = false;
-					sphere.material.displacementMap = depth;
+    const materialsR = [];
 
-				} );
+    for ( let i = 6; i < 12; i ++ ) {
 
-				// On load complete add the panoramic sphere to the scene
-				manager.onLoad = function () {
+        materialsR.push( new THREE.MeshBasicMaterial( { map: textures[ i ] } ) );
 
-					scene.add( sphere );
+    }
 
-				};
+    const skyBoxR = new THREE.Mesh( geometry, materialsR );
+    skyBoxR.layers.set( 2 );
+    scene.add( skyBoxR );
 
-				renderer = new THREE.WebGLRenderer();
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.xr.enabled = true;
-				renderer.xr.setReferenceSpaceType( 'local' );
-				container.appendChild( renderer.domElement );
+    window.addEventListener( 'resize', onWindowResize );
 
-				document.body.appendChild( VRButton.createButton( renderer ) );
+}
 
-				//
+function getTexturesFromAtlasFile( atlasImgUrl, tilesNum ) {
 
-				window.addEventListener( 'resize', onWindowResize );
+    const textures = [];
 
-			}
+    for ( let i = 0; i < tilesNum; i ++ ) {
 
-			function onWindowResize() {
+        textures[ i ] = new THREE.Texture();
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+    }
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+    const loader = new THREE.ImageLoader();
+    loader.load( atlasImgUrl, function ( imageObj ) {
 
-			}
+        let canvas, context;
+        const tileWidth = imageObj.height;
 
-			function animate() {
+        for ( let i = 0; i < textures.length; i ++ ) {
 
-				renderer.setAnimationLoop( render );
+            canvas = document.createElement( 'canvas' );
+            context = canvas.getContext( '2d' );
+            canvas.height = tileWidth;
+            canvas.width = tileWidth;
+            context.drawImage( imageObj, tileWidth * i, 0, tileWidth, tileWidth, 0, 0, tileWidth, tileWidth );
+            textures[ i ].colorSpace = THREE.SRGBColorSpace;
+            textures[ i ].image = canvas;
+            textures[ i ].needsUpdate = true;
 
-			}
+        }
 
-			function render() {
+    } );
 
-				// If we are not presenting move the camera a little so the effect is visible
+    return textures;
 
-				if ( renderer.xr.isPresenting === false ) {
+}
 
-					const time = clock.getElapsedTime();
+function onWindowResize() {
 
-					sphere.rotation.y += 0.001;
-					sphere.position.x = Math.sin( time ) * 0.2;
-					sphere.position.z = Math.cos( time ) * 0.2;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-				}
+    renderer.setSize( window.innerWidth, window.innerHeight );
 
-				renderer.render( scene, camera );
+}
 
-			}
+function animate() {
+
+    renderer.setAnimationLoop( render );
+
+}
+
+function render() {
+
+    renderer.render( scene, camera );
+
+}
         
