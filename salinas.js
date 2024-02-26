@@ -20,16 +20,15 @@ function init() {
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.layers.enable(1);
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, -1, 1); // Invertir la geometría para que el usuario esté dentro de la esfera
+    sphereGeometry.scale(-1, 1, 1); // invertir la geometría para que el usuario esté dentro de la esfera
 
-    const texture = getTextureFromImage('./textures/salinas - copia.jpg');
+    const texture = getTextureFromImage('./textures/salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-
 
     const skySphere = new THREE.Mesh(sphereGeometry, material);
     skySphere.layers.set(1);
@@ -68,3 +67,4 @@ function animate() {
 function render() {
     renderer.render(scene, camera);
 }
+

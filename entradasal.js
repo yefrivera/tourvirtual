@@ -24,7 +24,7 @@ function init() {
     camera.layers.enable(1);
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, 1, -1); // Invertir la geometría para que el usuario esté dentro de la esfera
+    sphereGeometry.scale(1, 1, -1); 
 
     const texture = getTextureFromImage('./textures/entrada salinas.jpg');
 
