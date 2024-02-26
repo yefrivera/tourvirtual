@@ -26,7 +26,7 @@ function init() {
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
     sphereGeometry.scale(1, -1, 1); // Invertir la geometría para que el usuario esté dentro de la esfera
 
-    const texture = getTextureFromImage('textures/salinas - copia.jpg');
+    const texture = getTextureFromImage('./textures/salinas - copia.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
