@@ -29,12 +29,15 @@ function init() {
     const texture = getTextureFromImage('./textures/entrada salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-
-
     const skySphere = new THREE.Mesh(sphereGeometry, material);
     skySphere.layers.set(1);
     scene.add(skySphere);
+    window.addEventListener('resize', onWindowResize);
 
+    const materialR = new THREE.MeshBasicMaterial({ map: texture });
+    const skySphereR = new THREE.Mesh(sphereGeometry, materialR);
+    skySphereR.layers.set(2);
+    scene.add(skySphereR);
     window.addEventListener('resize', onWindowResize);
 }
 
