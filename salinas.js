@@ -38,7 +38,7 @@ function init() {
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, -1, 1); // Invert the sphere to correctly display the texture
+    sphereGeometry.scale(1, 1, -1); // Invert the sphere to correctly display the texture
 
     // Create sphere for left eye
     const sphereL = new THREE.Mesh(sphereGeometry, material);
@@ -62,13 +62,31 @@ function init() {
     window.addEventListener('resize', onWindowResize);
 }
 
-function getTextureFromImage(imageUrl) {
-    const texture = new THREE.TextureLoader().load(imageUrl);
+/*function getTextureFromImage(imageUrl) {
+    
     texture.encoding = THREE.sRGBEncoding;
     texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
 
     return texture;
+}*/
+
+function getTextureFromImage(imageUrl) {
+    const texture = new THREE.Texture();
+
+    const loader = new THREE.ImageLoader();
+    loader.load(imageUrl, function (imageObj) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = imageObj.height;
+        canvas.width = imageObj.width;
+        context.drawImage(imageObj, 0, 0);
+        texture.image = canvas;
+        texture.needsUpdate = true;
+    });
+
+    return texture;
 }
+
 
 function onWindowResize() {
     const aspect = window.innerWidth / window.innerHeight;
