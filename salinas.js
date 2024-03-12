@@ -25,8 +25,8 @@ function init() {
     scene = new THREE.Scene();
 
     // Cameras for left and right eyes
-    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
-    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+    cameraL = new THREE.PerspectiveCamera(70, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
+    cameraR = new THREE.PerspectiveCamera(70, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
 
     // Position cameras for stereo view
     cameraL.position.set(-0.5, 0, 0);
@@ -89,7 +89,7 @@ function getTextureFromImage(imageUrl) {
 }*/
 
 function onWindowResize() {
-    const aspect = window.innerWidth / window.innerHeight;
+    const aspect = (window.innerWidth / window.innerHeight);
 
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
