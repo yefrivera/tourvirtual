@@ -32,12 +32,12 @@ function init() {
     cameraL.position.set(-0.5, 0, 0);
     cameraR.position.set(0.5, 0, 0);
 
-    const texture = getTextureFromImage('./textures/salinas.jpg');
+    const texture = getTextureFromImage('entrada salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, -1, 1); 
+    sphereGeometry.scale(1, 1, -1); 
 
     // Create sphere for left eye
     const sphereL = new THREE.Mesh(sphereGeometry, material);
