@@ -32,12 +32,12 @@ function init() {
     controls.enableDamping = true;
     controls.rotateSpeed = -0.25;
 
-    const texture = getTextureFromImage('entrada salinas.jpg');
+    const texture = getTextureFromImage('/textures/salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(1, 32, 32); // Increase segments for smoother sphere
-    sphereGeometry.scale(1, 1, -1); // Flip the sphere inside out so the texture is inside
+    sphereGeometry.scale(1, -1, 1); // Flip the sphere inside out so the texture is inside
     const sphere = new THREE.Mesh(sphereGeometry, material);
     scene.add(sphere);
 
