@@ -32,7 +32,7 @@ function init() {
     controls.enableDamping = true;
     controls.rotateSpeed = -0.25;
 
-    const texture = getTextureFromImage('/textures/salinas.jpg');
+    const texture = getTextureFromImage('./textures/salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
