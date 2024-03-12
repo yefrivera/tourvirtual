@@ -2,6 +2,10 @@ import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js'; 
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
+import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
+import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
+
 let camera, controls;
 let cameraL, cameraR;
 let renderer;
@@ -25,8 +29,8 @@ function init() {
     scene = new THREE.Scene();
 
     // Cameras for left and right eyes
-    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 0.1, 10000);
-    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 0.1, 10000);
+    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
 
     // Position cameras for stereo view
     cameraL.position.set(-0.5, 0, 0);
@@ -37,7 +41,7 @@ function init() {
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, -1, 1); 
+    sphereGeometry.scale(-1, 1, 1); // Invert the sphere to correctly display the texture
 
     // Create sphere for left eye
     const sphereL = new THREE.Mesh(sphereGeometry, material);
@@ -57,7 +61,6 @@ function init() {
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
-    controls.enablePan = false;
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -86,10 +89,9 @@ function onWindowResize() {
 }
 
 function animate() {
-    renderer.setAnimationLoop(render);
-}
+    requestAnimationFrame(animate);
 
-function render() {
+    // Update controls
     controls.update();
 
     // Render for non-VR mode
@@ -104,3 +106,4 @@ function render() {
         renderer.render(scene, cameraR);
     }
 }
+
