@@ -2,9 +2,6 @@ import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js'; 
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
-import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
-import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 let camera, controls;
 let cameraL, cameraR;
@@ -41,7 +38,7 @@ function init() {
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(-1, 1, 1); // Invert the sphere to correctly display the texture
+    sphereGeometry.scale(1, -1, 1); // Invert the sphere to correctly display the texture
 
     // Create sphere for left eye
     const sphereL = new THREE.Mesh(sphereGeometry, material);
