@@ -1,7 +1,8 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js'; 
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
-let camera;
+let camera, controls;
 let renderer;
 let scene;
 
@@ -9,52 +10,44 @@ init();
 animate();
 
 function init() {
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight );
-    renderer.xr.enabled = true;
-    renderer.xr.setReferenceSpaceType('local');
-    document.body.appendChild(renderer.domElement);
+    const container = document.getElementById('container');
 
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+    
+    // Enable VR
+    renderer.xr.enabled = true;
     document.body.appendChild(VRButton.createButton(renderer));
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.layers.enable(1);
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 0.01;
 
-    const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(-1, 1, 1); // invertir la geometría para que el usuario esté dentro de la esfera
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.rotateSpeed = -0.25;
 
-    const texture = getTextureFromImage('./textures/salinas.jpg');
+    const texture = getTextureFromImage('entrada salinas.jpg');
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
-    const skySphere = new THREE.Mesh(sphereGeometry, material);
-    skySphere.layers.set(1);
-    scene.add(skySphere);
-    window.addEventListener('resize', onWindowResize);
 
-    const materialR = new THREE.MeshBasicMaterial({ map: texture });
-    const skySphereR = new THREE.Mesh(sphereGeometry, materialR);
-    skySphereR.layers.set(2);
-    scene.add(skySphereR);
-    window.addEventListener('resize', onWindowResize);
+    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32); // Increase segments for smoother sphere
+    sphereGeometry.scale(1, 1, -1); // Flip the sphere inside out so the texture is inside
+    const sphere = new THREE.Mesh(sphereGeometry, material);
+    scene.add(sphere);
 
+    window.addEventListener('resize', onWindowResize);
 }
 
 function getTextureFromImage(imageUrl) {
-    const texture = new THREE.Texture();
-
-    const loader = new THREE.ImageLoader();
-    loader.load(imageUrl, function (imageObj) {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = imageObj.height;
-        canvas.width = imageObj.width;
-        context.drawImage(imageObj, 0, 0);
-        texture.image = canvas;
-        texture.needsUpdate = true;
-    });
+    const texture = new THREE.TextureLoader().load(imageUrl);
+    texture.encoding = THREE.sRGBEncoding;
+    texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
 
     return texture;
 }
@@ -66,10 +59,8 @@ function onWindowResize() {
 }
 
 function animate() {
-    renderer.setAnimationLoop(render);
-}
-
-function render() {
+    requestAnimationFrame(animate);
+    controls.update(); // required when damping is enabled
     renderer.render(scene, camera);
 }
 
