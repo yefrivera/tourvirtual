@@ -1,7 +1,6 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js'; 
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
-
 
 let camera, controls;
 let cameraL, cameraR;
@@ -62,16 +61,18 @@ function init() {
     window.addEventListener('resize', onWindowResize);
 }
 
-/*function getTextureFromImage(imageUrl) {
-    
+function getTextureFromImage(imageUrl) {
+    const texture = new THREE.TextureLoader().load(imageUrl);
     texture.encoding = THREE.sRGBEncoding;
-    texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
+    //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
 
     return texture;
-}*/
+}
 
-function getTextureFromImage(imageUrl) {
+/*function getTextureFromImage(imageUrl) {
     const texture = new THREE.Texture();
+    
+    texture.encoding = THREE.sRGBEncoding;
 
     const loader = new THREE.ImageLoader();
     loader.load(imageUrl, function (imageObj) {
@@ -85,8 +86,7 @@ function getTextureFromImage(imageUrl) {
     });
 
     return texture;
-}
-
+}*/
 
 function onWindowResize() {
     const aspect = window.innerWidth / window.innerHeight;
