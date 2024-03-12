@@ -25,8 +25,8 @@ function init() {
     scene = new THREE.Scene();
 
     // Cameras for left and right eyes
-    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
-    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 0.1, 10000);
+    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 0.1, 10000);
 
     // Position cameras for stereo view
     cameraL.position.set(-0.5, 0, 0);
@@ -37,7 +37,7 @@ function init() {
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, 1, -1); 
+    sphereGeometry.scale(-1, 1, 1); 
 
     // Create sphere for left eye
     const sphereL = new THREE.Mesh(sphereGeometry, material);
@@ -58,8 +58,6 @@ function init() {
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
     controls.enablePan = false;
-    controls.enableDamping = true;
-    controls.rotateSpeed = -0.25;
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -88,9 +86,10 @@ function onWindowResize() {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
+    renderer.setAnimationLoop(render);
+}
 
-    // Update controls
+function render() {
     controls.update();
 
     // Render for non-VR mode
@@ -98,8 +97,6 @@ function animate() {
 
     // Render for VR mode
     if (renderer.xr.isPresenting) {
-        renderer.xr.getCamera(cameraL);
-        renderer.xr.getCamera(cameraR);
         renderer.clear();
         renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraL);
