@@ -15,7 +15,6 @@ function init() {
     renderer.xr.enabled = true;
     renderer.xr.setReferenceSpaceType('local');
     document.body.appendChild(renderer.domElement);
-
     document.body.appendChild(VRButton.createButton(renderer));
 
     scene = new THREE.Scene();

@@ -3,6 +3,7 @@ import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/cont
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 let camera, controls;
+let cameraL, cameraR;
 let renderer;
 let scene;
 
@@ -16,14 +17,42 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
-    
+
     // Enable VR
     renderer.xr.enabled = true;
     document.body.appendChild(VRButton.createButton(renderer));
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 100);
+    // Cameras for left and right eyes
+    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+
+    // Position cameras for stereo view
+    cameraL.position.set(-0.5, 0, 0);
+    cameraR.position.set(0.5, 0, 0);
+
+    const texture = getTextureFromImage('./textures/salinas.jpg');
+
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
+    sphereGeometry.scale(1, -1, 1); 
+
+    // Create sphere for left eye
+    const sphereL = new THREE.Mesh(sphereGeometry, material);
+    scene.add(sphereL);
+
+    // Create sphere for right eye
+    const sphereR = new THREE.Mesh(sphereGeometry, material);
+    scene.add(sphereR);
+
+    // Set layers for stereo rendering
+    sphereL.layers.enable(1);
+    sphereR.layers.enable(2);
+
+    // Orbit controls for non-VR mode
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 10000);
     camera.position.z = 0.01;
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -31,15 +60,6 @@ function init() {
     controls.enablePan = false;
     controls.enableDamping = true;
     controls.rotateSpeed = -0.25;
-
-    const texture = getTextureFromImage('./textures/salinas.jpg');
-
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-
-    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32); // Increase segments for smoother sphere
-    sphereGeometry.scale(1, -1, 1); // Flip the sphere inside out so the texture is inside
-    const sphere = new THREE.Mesh(sphereGeometry, material);
-    scene.add(sphere);
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -53,14 +73,37 @@ function getTextureFromImage(imageUrl) {
 }
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    const aspect = window.innerWidth / window.innerHeight;
+
+    camera.aspect = aspect;
     camera.updateProjectionMatrix();
+
+    cameraL.aspect = aspect / 2;
+    cameraL.updateProjectionMatrix();
+
+    cameraR.aspect = aspect / 2;
+    cameraR.updateProjectionMatrix();
+
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
     requestAnimationFrame(animate);
-    controls.update(); // required when damping is enabled
-    renderer.render(scene, camera);
-}
 
+    // Update controls
+    controls.update();
+
+    // Render for non-VR mode
+    renderer.render(scene, camera);
+
+    // Render for VR mode
+    if (renderer.xr.isPresenting) {
+        renderer.xr.getCamera(cameraL);
+        renderer.xr.getCamera(cameraR);
+        renderer.clear();
+        renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
+        renderer.render(scene, cameraL);
+        renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+        renderer.render(scene, cameraR);
+    }
+}
