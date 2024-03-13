@@ -11,6 +11,9 @@ init();
 animate();
 
 function init() {
+
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
+
     const container = document.getElementById('container');
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -56,6 +59,10 @@ function init() {
     camera.position.z = 0.01;
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.rotateSpeed = -0.25;
+
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -90,7 +97,7 @@ function animate() {
     // Update controls
     controls.update();
 
-    //renderer.enableAnimationLoop(render);
+    
 
     // Render for non-VR mode
     renderer.render(scene, camera);
@@ -113,4 +120,9 @@ function animate() {
         //
 
     }
+    
+}
+function onDocumentMouseMove(event) {
+    controls.mouseX = -(event.clientX - window.innerWidth / 2);
+    controls.mouseY = -(event.clientY - window.innerHeight / 2);
 }
