@@ -63,7 +63,7 @@ function init() {
 
 function getTextureFromImage(imageUrl) {
     const texture = new THREE.TextureLoader().load(imageUrl);
-    texture.colorSpace = THREE.sRGBEncoding;
+    texture.colorSpace = THREE.sRGBColorSpace;
     //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
 
     return texture;
@@ -103,12 +103,15 @@ function animate() {
         // Clear and render left eye
         renderer.clear();
         renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
+        renderer.clearDepth(); // Limpia el búfer de profundidad antes de renderizar la escena
         renderer.render(scene, cameraL);
 
         // Clear and render right eye
-        renderer.clearDepth(); // Clear depth buffer to prevent depth overlap
+        renderer.clear(); // Clear color buffer
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
+        renderer.clearDepth(); // Limpia el búfer de profundidad antes de renderizar la escena
         renderer.render(scene, cameraR);
+
     }
 }
 
