@@ -25,8 +25,9 @@ function init() {
     scene = new THREE.Scene();
 
     // Cameras for left and right eyes
-    cameraL = new THREE.PerspectiveCamera(70, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
-    cameraR = new THREE.PerspectiveCamera(70, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
+    cameraL = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+    cameraR = new THREE.PerspectiveCamera(70, window.innerWidth / 2 / window.innerHeight, 1, 10000);
+
 
     // Position cameras for stereo view
     cameraL.position.set(-0.5, 0, 0);
@@ -62,22 +63,11 @@ function init() {
 }
 
 function getTextureFromImage(imageUrl) {
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-        imageUrl,
-        function (texture) {
-            console.log('Texture loaded successfully:', texture);
-            texture.colorSpace = THREE.SRGBColorSpace;
-            texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
-            return texture;
-        },
-        function (xhr) {
-            console.log('Texture loading progress:', (xhr.loaded / xhr.total * 100) + '%');
-        },
-        function (error) {
-            console.error('Error loading texture:', error);
-        }
-    );
+    const texture = new THREE.TextureLoader().load(imageUrl);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
+
+    return texture;
 }
 
 
