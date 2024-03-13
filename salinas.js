@@ -38,18 +38,24 @@ function init() {
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
     sphereGeometry.scale(1, 1, -1); // Invert the sphere to correctly display the texture
-
+//-----------------------------------------------------------------------------------------------------------------------
     // Create sphere for left eye
-    const sphereL = new THREE.Mesh(sphereGeometry, material);
+    const materialL = new THREE.MeshBasicMaterial({ map: texture });
+    const sphereL = new THREE.Mesh(sphereGeometry, materialL);
+    sphereL.layers.set(1);
     scene.add(sphereL);
+    window.addEventListener('resize', onWindowResize);
 
     // Create sphere for right eye
-    const sphereR = new THREE.Mesh(sphereGeometry, material);
+    const materialR = new THREE.MeshBasicMaterial({ map: texture });
+    const sphereR = new THREE.Mesh(sphereGeometry, materialR);
+    sphereR.layers.set(2);
     scene.add(sphereR);
+    window.addEventListener('resize', onWindowResize);
 
     // Set layers for stereo rendering
-    sphereL.layers.enable(1);
-    sphereR.layers.enable(2);
+    //sphereL.layers.enable(1);
+    //sphereR.layers.enable(2);
 
     // Orbit controls for non-VR mode
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -109,7 +115,7 @@ function animate() {
         renderer.clearDepth(); // Clear depth buffer to prevent depth overlap
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraR);
+        //
+
     }
 }
-
-
