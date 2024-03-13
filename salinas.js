@@ -18,55 +18,46 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
     document.body.appendChild(renderer.domElement);
-    // Enable VR
+    
     renderer.xr.enabled = true;
     document.body.appendChild(VRButton.createButton(renderer));
     renderer.xr.setReferenceSpaceType('local');
 
     scene = new THREE.Scene();
 
-    // Cameras for left and right eyes
     cameraL = new THREE.PerspectiveCamera(50, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
     cameraR = new THREE.PerspectiveCamera(50, (window.innerWidth / window.innerHeight) / 2, 1, 10000);
 
-    // Position cameras for stereo view
     cameraL.position.set(-0.5, 0, 0);
     cameraR.position.set(0.5, 0, 0);
 
     const texture = getTextureFromImage('./textures/salinas.jpg');
 
-    
+    const material = new THREE.MeshBasicMaterial({ map: texture });
 
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, 1, -1); // Invert the sphere to correctly display the texture
+    sphereGeometry.scale(1, 1, -1); 
 //-----------------------------------------------------------------------------------------------------------------------
-    // Create sphere for left eye
-    const material = new THREE.MeshBasicMaterial({ map: texture });
+    
     const sphereL = new THREE.Mesh(sphereGeometry, material);
-    //sphereL.layers.set(1);
     sphereL.layers.enable(1);
     scene.add(sphereL);
-    window.addEventListener('resize', onWindowResize);
+    //window.addEventListener('resize', onWindowResize);
 
-    // Create sphere for right eye
+    
     const materialR = new THREE.MeshBasicMaterial({ map: texture });
     const sphereR = new THREE.Mesh(sphereGeometry, materialR);
-    //sphereR.layers.set(2);
-    
     sphereR.layers.enable(2);
     scene.add(sphereR);
-    window.addEventListener('resize', onWindowResize);
+    //window.addEventListener('resize', onWindowResize);
     
     
-
-    // Orbit controls for non-VR mode
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 10000);
     camera.position.z = 0.01;
-
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
 
-    //window.addEventListener('resize', onWindowResize);
+    window.addEventListener('resize', onWindowResize);
 }
 
 function getTextureFromImage(imageUrl) {
@@ -98,6 +89,8 @@ function animate() {
 
     // Update controls
     controls.update();
+
+    //renderer.enableAnimationLoop(render);
 
     // Render for non-VR mode
     renderer.render(scene, camera);
