@@ -63,7 +63,7 @@ function init() {
 
 function getTextureFromImage(imageUrl) {
     const texture = new THREE.TextureLoader().load(imageUrl);
-    texture.colorSpace = THREE.sRGBEncoding;
+    texture.colorSpace = THREE.SRGBColorSpace;
     //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
 
     return texture;
