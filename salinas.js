@@ -62,11 +62,22 @@ function init() {
 }
 
 function getTextureFromImage(imageUrl) {
-    const texture = new THREE.TextureLoader().load(imageUrl);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
-
-    return texture;
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+        imageUrl,
+        function (texture) {
+            console.log('Texture loaded successfully:', texture);
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
+            return texture;
+        },
+        function (xhr) {
+            console.log('Texture loading progress:', (xhr.loaded / xhr.total * 100) + '%');
+        },
+        function (error) {
+            console.error('Error loading texture:', error);
+        }
+    );
 }
 
 
