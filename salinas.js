@@ -111,6 +111,7 @@ function animate() {
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
         renderer.clearDepth(); // Limpia el búfer de profundidad antes de renderizar la escena
         renderer.render(scene, cameraR);
+        //
 
     }
 }
