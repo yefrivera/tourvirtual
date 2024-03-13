@@ -45,14 +45,14 @@ function init() {
     const sphereL = new THREE.Mesh(sphereGeometry, material);
     sphereL.layers.enable(1);
     scene.add(sphereL);
-    //window.addEventListener('resize', onWindowResize);
+    
 
     
     const materialR = new THREE.MeshBasicMaterial({ map: texture });
     const sphereR = new THREE.Mesh(sphereGeometry, materialR);
     sphereR.layers.enable(2);
     scene.add(sphereR);
-    //window.addEventListener('resize', onWindowResize);
+    
     
     
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -70,8 +70,6 @@ function init() {
 function getTextureFromImage(imageUrl) {
     const texture = new THREE.TextureLoader().load(imageUrl);
     texture.colorSpace = THREE.SRGBColorSpace;
-    //texture.flipY = false; // Depending on your texture orientation, you might need to adjust this
-
     return texture;
 }
 
@@ -94,27 +92,24 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update controls
+    
     controls.update();
 
-    
-
-    // Render for non-VR mode
     renderer.render(scene, camera);
 
-    // Render for VR mode
+    
     if (renderer.xr.isPresenting) {
-        // Update VR cameras
+        
         cameraL.position.copy(camera.position).add(controls.eyeOffsetL);
         cameraR.position.copy(camera.position).add(controls.eyeOffsetR);
 
-        // Clear and render left eye
+        
         renderer.clear();
         renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraL);
 
-        // Clear and render right eye
-        renderer.clearDepth(); // Clear depth buffer to prevent depth overlap
+        
+        renderer.clearDepth(); 
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraR);
         //
