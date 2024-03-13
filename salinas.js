@@ -69,24 +69,6 @@ function getTextureFromImage(imageUrl) {
     return texture;
 }
 
-/*function getTextureFromImage(imageUrl) {
-    const texture = new THREE.Texture();
-    
-    texture.encoding = THREE.sRGBEncoding;
-
-    const loader = new THREE.ImageLoader();
-    loader.load(imageUrl, function (imageObj) {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = imageObj.height;
-        canvas.width = imageObj.width;
-        context.drawImage(imageObj, 0, 0);
-        texture.image = canvas;
-        texture.needsUpdate = true;
-    });
-
-    return texture;
-}*/
 
 function onWindowResize() {
     const aspect = (window.innerWidth / window.innerHeight);
@@ -114,11 +96,20 @@ function animate() {
 
     // Render for VR mode
     if (renderer.xr.isPresenting) {
+        // Update VR cameras
+        cameraL.position.copy(camera.position).add(controls.eyeOffsetL);
+        cameraR.position.copy(camera.position).add(controls.eyeOffsetR);
+
+        // Clear and render left eye
         renderer.clear();
         renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraL);
+
+        // Clear and render right eye
+        renderer.clearDepth(); // Clear depth buffer to prevent depth overlap
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraR);
     }
 }
+
 
