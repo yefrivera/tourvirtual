@@ -1,60 +1,55 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
-let camera;
+let camera, controls;
 let renderer;
 let scene;
+let sphere;
 
 init();
 animate();
 
 function init() {
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.xr.enabled = true;
-    renderer.xr.setReferenceSpaceType('local');
-    document.body.appendChild(renderer.domElement);
-    document.body.appendChild(VRButton.createButton(renderer));
-
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.layers.enable(1);
+    const light = new THREE.PointLight(0xFFFFFF, 2);
+    light.position.set(0, 0, 10);
+    scene.add(light);
 
-    const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    sphereGeometry.scale(1, 1, -1); 
+    camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 0.1); 
 
-    const texture = getTextureFromImage('./textures/entrada salinas.jpg');
+    const sphereGeometry = new THREE.SphereGeometry(300, 64, 64);
+    sphereGeometry.scale(-1, 1, 1); 
 
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const skySphere = new THREE.Mesh(sphereGeometry, material);
-    skySphere.layers.set(1);
-    scene.add(skySphere);
-    window.addEventListener('resize', onWindowResize);
-
-    const materialR = new THREE.MeshBasicMaterial({ map: texture });
-    const skySphereR = new THREE.Mesh(sphereGeometry, materialR);
-    skySphereR.layers.set(2);
-    scene.add(skySphereR);
-    window.addEventListener('resize', onWindowResize);
-}
-
-function getTextureFromImage(imageUrl) {
-    const texture = new THREE.Texture();
-
-    const loader = new THREE.ImageLoader();
-    loader.load(imageUrl, function (imageObj) {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.height = imageObj.height;
-        canvas.width = imageObj.width;
-        context.drawImage(imageObj, 0, 0);
-        texture.image = canvas;
-        texture.needsUpdate = true;
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.setPath('./textures/');
+    const texture = textureLoader.load('entrada salinas.jpg', function (texture) {
+        texture.colorSpace= THREE.SRGBColorSpace; // Aplicar el espacio de color sRGB a la textura
     });
 
-    return texture;
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    sphere = new THREE.Mesh(sphereGeometry, material);
+    scene.add(sphere);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.xr.enabled = true;
+
+    document.body.appendChild(renderer.domElement);
+
+    document.body.appendChild(VRButton.createButton(renderer));
+
+    controls = new OrbitControls(camera, renderer.domElement);
+
+    controls.enableZoom = true; 
+    controls.zoomSpeed = 0.3; 
+    controls.enablePan = false;
+    controls.rotateSpeed = -0.3;
+
+    window.addEventListener('resize', onWindowResize);
 }
 
 function onWindowResize() {
@@ -64,10 +59,12 @@ function onWindowResize() {
 }
 
 function animate() {
-    renderer.setAnimationLoop(render);
+    renderer.setAnimationLoop(() => {
+        render();
+    });
 }
 
 function render() {
+
     renderer.render(scene, camera);
 }
-
