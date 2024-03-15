@@ -42,14 +42,18 @@ function init() {
     sphereGeometry.scale(1, 1, -1); 
 //-----------------------------------------------------------------------------------------------------------------------
     
-    const sphereL = new THREE.Mesh(sphereGeometry, material);
+    const sphere1 = new THREE.SphereGeometry(100, 60, 40);
+    sphereGeometry.scale(1, 1, -1); 
+
+    const sphereL = new THREE.Mesh(sphere1, material);
     sphereL.layers.enable(1);
     scene.add(sphereL);
     
+    const sphere2 = new THREE.SphereGeometry(100, 60, 40);
+    sphereGeometry.scale(1, 1, -1); 
 
-    
     const materialR = new THREE.MeshBasicMaterial({ map: texture });
-    const sphereR = new THREE.Mesh(sphereGeometry, materialR);
+    const sphereR = new THREE.Mesh(sphere2, materialR);
     sphereR.layers.enable(2);
     scene.add(sphereR);
     
@@ -108,7 +112,6 @@ function animate() {
         renderer.setViewport(0, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraL);
 
-        
         renderer.clearDepth(); 
         renderer.setViewport(window.innerWidth / 2, 0, window.innerWidth / 2, window.innerHeight);
         renderer.render(scene, cameraR);
