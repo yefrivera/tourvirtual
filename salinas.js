@@ -25,7 +25,7 @@ function init() {
 
     scene.add(camera);
 
-    const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
+    const sphereGeometry = new THREE.SphereGeometry(10, 60, 40);
     sphereGeometry.scale(1, 1, -1); 
 
     const texture = getTextureFromImage('./textures/salinas.jpg');
