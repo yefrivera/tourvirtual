@@ -13,18 +13,22 @@ animate();
 function init() {
     scene = new THREE.Scene();
 
-    // Creamos una luz
     const light = new THREE.PointLight(0xFFFFFF, 2);
     light.position.set(0, 0, 10);
     scene.add(light);
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 0.1); // Ajustamos la posición de la cámara para ver la esfera
+    camera.position.set(0, 0, 0.1); 
 
-    const sphereGeometry = new THREE.SphereGeometry(500, 64, 64);
-    sphereGeometry.scale(-1, 1, 1); // Invertimos la esfera para que la textura se vea correctamente desde adentro
+    const sphereGeometry = new THREE.SphereGeometry(300, 64, 64);
+    sphereGeometry.scale(-1, 1, 1); 
 
-    const texture = new THREE.TextureLoader().load('./textures/salinas.jpg');
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.setPath('./textures/');
+    const texture = textureLoader.load('salinas.jpg', function (texture) {
+        texture.colorSpace= THREE.SRGBColorSpace; // Aplicar el espacio de color sRGB a la textura
+    });
+
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
     sphere = new THREE.Mesh(sphereGeometry, material);
@@ -32,14 +36,18 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.xr.enabled = true; // Habilitamos la renderización en XR
+    renderer.xr.enabled = true;
 
     document.body.appendChild(renderer.domElement);
 
     document.body.appendChild(VRButton.createButton(renderer));
 
     controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
+
+    controls.enableZoom = true; 
+    controls.zoomSpeed = 0.3; 
+    controls.enablePan = false;
+    controls.rotateSpeed = -0.3;
 
     window.addEventListener('resize', onWindowResize);
 }
@@ -56,17 +64,8 @@ function animate() {
     });
 }
 
-/*function TextureLoader(){
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-}*/
-
 function render() {
-    // Si no estamos en modo VR, rotamos la esfera automáticamente
-    /*if (!renderer.xr.isPresenting) {
-        sphere.rotation.y += 0.005;
-    }*/
-    
+
     renderer.render(scene, camera);
 }
 
