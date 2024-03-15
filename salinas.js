@@ -32,10 +32,8 @@ function init() {
     scene.add(sphere);
 
     const loader = new THREE.TextureLoader();
-
     loader.load('./textures/salinas.jpg', function (texture) {
         
-        //texture.encoding = THREE.SRGBEncoding;
         material.map = texture;
         render(); // Renderizar una vez que la textura se haya cargado
     });
