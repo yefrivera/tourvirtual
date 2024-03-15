@@ -14,8 +14,8 @@ function init() {
 
     scene = new THREE.Scene();
 
-    //const light = new THREE.AmbientLight(0xFFFFFF, 3);
-    //scene.add(light);
+    const light = new THREE.AmbientLight(0xFFFFFF, 3);
+    scene.add(light);
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 10000);
     camera.position.z = 0.01;
@@ -33,7 +33,7 @@ function init() {
 
     const loader = new THREE.TextureLoader();
     loader.load('./textures/salinas.jpg', function (texture) {
-        
+        texture.encoding = THREE.sRGBEncoding;
         material.map = texture;
         render(); // Renderizar una vez que la textura se haya cargado
     });
