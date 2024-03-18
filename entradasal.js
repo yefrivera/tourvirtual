@@ -43,42 +43,15 @@ function init() {
     sphere = new THREE.Mesh(sphereGeometry, material);
     scene.add(sphere);
 
-    // Creamos el botón esférico
-    const sphereButtonGeometry = new THREE.SphereGeometry(2.5, 64, 64);
+    // --------------------Boton esfera------------------------------------
+
+    const sphereButtonGeometry = new THREE.SphereGeometry(3, 128, 128);
     const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.7 });
     sphereButton = new THREE.Mesh(sphereButtonGeometry, sphereButtonMaterial);
-    sphereButton.position.set(40, 2, -40); // Ajustamos la posición del botón
+    sphereButton.position.set(40, 2, -40); 
     scene.add(sphereButton);
 
-    // Creamos el efecto de borde animado (glow)
-    const sphereButtonGlowGeometry = new THREE.SphereGeometry(3, 32, 32);
-    const sphereButtonGlowMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-            color: { value: new THREE.Color(0x0000ff) }
-        },
-        vertexShader: `
-            varying vec3 vNormal;
-            void main() {
-                vNormal = normal;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-            }
-        `,
-        fragmentShader: `
-            uniform vec3 color;
-            varying vec3 vNormal;
-            void main() {
-                float intensity = pow( 0.8 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 3.0 );
-                gl_FragColor = vec4( color, 1.0 ) * intensity;
-            }
-        `,
-        side: THREE.BackSide,
-        blending: THREE.AdditiveBlending,
-        transparent: true
-    });
-    sphereButtonGlow = new THREE.Mesh(sphereButtonGlowGeometry, sphereButtonGlowMaterial);
-    sphereButtonGlow.position.copy(sphereButton.position);
-    scene.add(sphereButtonGlow);
-
+    //--------------------------------------------------------------------------------
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -103,17 +76,14 @@ function init() {
 }
 
 function onClickButton(event) {
-    // Calcula las coordenadas normalizadas del ratón (-1 a 1)
+ 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Actualiza el raycaster con la posición del ratón
     raycaster.setFromCamera(mouse, camera);
 
-    // Comprueba si el rayo del ratón intersecta el botón esférico
     const intersects = raycaster.intersectObject(sphereButton);
 
-    // Si hay una intersección, redirige a la página entradasal.js
     if (intersects.length > 0) {
         window.location.href = 'salinas.html';
     }
