@@ -4,17 +4,29 @@
         <title>Salinas</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        
+        <link rel="stylesheet" href="estilos.css">
+        <style>
+         canvas {
+             opacity: 1;
+             transition: opacity 0.5s ease-in-out; /* Ajusta la duración y el tipo de transición según lo desees */
+             
+         }
+     
+         canvas.fade-out {
+             opacity: 0;
+         }
+         
+     </style>
+
+  
     </head>
     <body>
         <div id="container"></div>
         
         <h1></h1>
         
-         <div id="content">
-            
-         </div>
-        
+         <div id="content"></div>
+
          <script type="importmap">
             {
                "imports": {
@@ -25,6 +37,14 @@
          </script>
 
          <script type="module" src="./salinas.js"></script> 
+
+         <script>
+            // Pre-carga la siguiente página para reducir el tiempo de espera durante la transición
+            window.addEventListener('DOMContentLoaded', () => {
+                const nextPage = new Image();
+                nextPage.src = 'entradasal.html';
+            });
+        </script>
 
       </body> 
 </html>

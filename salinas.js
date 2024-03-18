@@ -77,17 +77,22 @@ function init() {
 }
 
 function onClickButton(event) {
-    
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObject(sphereButton);
-    //const intersects1 = raycaster.intersectObject(clickableArea);
 
     if (intersects.length > 0) {
-        window.location.href = 'entradasal.html';
+        // Agrega la clase para la transición de salida
+        renderer.domElement.classList.add('fade-out');
+
+        // Espera un breve momento para que se complete la transición
+        setTimeout(() => {
+            // Redirige a la nueva página
+            window.location.href = 'entradasal.html';
+        }, 200); // Ajusta el tiempo de espera (300ms en este ejemplo)
     }
 }
 

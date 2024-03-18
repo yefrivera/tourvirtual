@@ -76,7 +76,6 @@ function init() {
 }
 
 function onClickButton(event) {
- 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -85,10 +84,16 @@ function onClickButton(event) {
     const intersects = raycaster.intersectObject(sphereButton);
 
     if (intersects.length > 0) {
-        window.location.href = 'salinas.html';
+        // Agrega la clase para la transición de salida
+        renderer.domElement.classList.add('fade-out');
+
+        // Espera un breve momento para que se complete la transición
+        setTimeout(() => {
+            // Redirige a la nueva página
+            window.location.href = 'salinas.html';
+        }, 200); // Ajusta el tiempo de espera para que coincida con la duración de la transición
     }
 }
-
 function onDocumentMouseWheel(event) {
     event.preventDefault();
     if (event.deltaY < 0) {
