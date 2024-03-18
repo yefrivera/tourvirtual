@@ -45,7 +45,7 @@ function init() {
 
     //----------------------Boton esfera ----------------------
 
-    const sphereButtonGeometry = new THREE.SphereGeometry(3, 128, 128);
+    const sphereButtonGeometry = new THREE.SphereGeometry(4, 128, 128);
     const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton = new THREE.Mesh(sphereButtonGeometry, sphereButtonMaterial);
     sphereButton.position.set(-50, 8, -10); 
