@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Entrada Salinas</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<head>
+    <title>Entrada Salinas</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-    </head>
-    <body>
-        <div id="container"></div>
-        
-        <h1></h1>
-        
-         <div id="content">
-            
-         </div>
-        
-         <script type="importmap">
-            {
-               "imports": {
-                  "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
-                  "three/addons/": "./jsm/"                  
-               }
+</head>
+<body>
+    <div id="container"></div>
+    
+    <h1></h1>
+    
+    <div id="content"></div>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+                "three/addons/": "./jsm/"                  
             }
-         </script>
+        }
+    </script>
 
-         <script type="module" src="./entradasal.js"></script> 
+    <script type="module" src="./entradasal.js"></script> 
 
-         <script>
-            // Pre-carga la siguiente página para reducir el tiempo de espera durante la transición
-            window.addEventListener('DOMContentLoaded', () => {
+    <script>
+        // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
+        window.addEventListener('DOMContentLoaded', () => {
+            const pagesToPreload = ['salinas.html', 'muelle.html']; // Lista de páginas a pre-cargar
+            pagesToPreload.forEach(page => {
                 const nextPage = new Image();
-                nextPage.src = 'entradasal.html';
+                nextPage.src = page;
             });
+        });
+    </script>
+        <script>
+           /* // Captura el evento click en los enlaces
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault(); // Previene el comportamiento predeterminado del enlace
+                    const nextPage = link.getAttribute('href'); // Obtiene la URL de la próxima página
+                    document.querySelector('.page-transition').classList.add('show'); // Muestra el div de transición
+                    setTimeout(() => {
+                        window.location.href = nextPage; // Redirige a la próxima página después de la animación
+                    }, 500); // Tiempo de espera que debe coincidir con la duración de la animación en CSS
+                });
+            });*/
         </script>
 
-      </body> 
+</body>
 </html>

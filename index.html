@@ -15,6 +15,17 @@
             <li><a href="muelle.html" id="muelle">Muelle</a></li>
         </ul>
     </div>
+
+    <script>
+        // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
+        window.addEventListener('DOMContentLoaded', () => {
+            const pagesToPreload = ['salinas.html','entradasal.html', 'muelle.html']; // Lista de páginas a pre-cargar
+            pagesToPreload.forEach(page => {
+                const nextPage = new Image();
+                nextPage.src = page;
+            });
+        });
+    </script>
     
 </body>
 </html>
