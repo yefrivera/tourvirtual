@@ -8,18 +8,19 @@
 </head>
 <body>
     <div class="vr-interface">
-        <h1>Tour Virtual Cauca</h1>
+        <h1>Tour Virtual</h1>
         <ul>
             <li><a href="salinas.html" id="salinas">Salinas</a></li>
             <li><a href="entradasal.html" id="entrada salinas">Entrada Salinas</a></li>
             <li><a href="muelle.html" id="muelle">Muelle</a></li>
+            <li><a href="lago.html" id="muelle">Lago</a></li>
         </ul>
     </div>
 
     <script>
         // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
         window.addEventListener('DOMContentLoaded', () => {
-            const pagesToPreload = ['salinas.html','entradasal.html', 'muelle.html']; // Lista de páginas a pre-cargar
+            const pagesToPreload = ['salinas.html','entradasal.html', 'muelle.html','lago.html']; // Lista de páginas a pre-cargar
             pagesToPreload.forEach(page => {
                 const nextPage = new Image();
                 nextPage.src = page;

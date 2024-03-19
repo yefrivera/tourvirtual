@@ -4,7 +4,7 @@ import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRB
 
 let camera, controls;
 let renderer;
-let sphereButton, sphereButton2;
+let sphereButton, sphereButton2,sphereButton3;
 let sphere;
 let scene;
 
@@ -69,11 +69,25 @@ function init() {
     const sphereButtonGeometry2 = new THREE.SphereGeometry(4, 128, 128);
     //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton2 = new THREE.Mesh(sphereButtonGeometry2, material2);
-    sphereButton2.position.set(-5, 2, -40); 
+    sphereButton2.position.set(-70, 2, 10); 
     scene.add(sphereButton2);
 
     //--------------------------------------------------------------------------------
+    // --------------------Boton lago------------------------------------
 
+    const textureLoader3 = new THREE.TextureLoader();
+    textureLoader3.setPath('./textures/');
+    const texture3 = textureLoader3.load('lago.jpg', function (texture) {
+        texture.colorSpace= THREE.SRGBColorSpace; 
+    });
+    const material3 = new THREE.MeshBasicMaterial({ map: texture3 });
+    const sphereButtonGeometry3 = new THREE.SphereGeometry(4, 128, 128);
+    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
+    sphereButton3 = new THREE.Mesh(sphereButtonGeometry3, material3);
+    sphereButton3.position.set(0.5, 2, -50); 
+    scene.add(sphereButton3);
+
+    //--------------------------------------------------------------------------------
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -105,12 +119,16 @@ function onClickButton(event) {
 
     const intersects = raycaster.intersectObject(sphereButton);
     const intersects2 = raycaster.intersectObject(sphereButton2);
+    const intersects3 = raycaster.intersectObject(sphereButton3);
 
     if (intersects.length > 0) {
         window.location.href = 'salinas.html';
     }
     if (intersects2.length > 0) {
         window.location.href = 'entradasal.html';
+    }
+    if (intersects3.length > 0) {
+        window.location.href = 'lago.html';
     }
 }
 
