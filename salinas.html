@@ -27,11 +27,13 @@
          <script>
             // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
             window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['entradasal.html', 'muelle.html']; // Lista de páginas a pre-cargar
+                const pagesToPreload = ['muelle.html','entradasal.html']; // Lista de páginas a pre-cargar
                 pagesToPreload.forEach(page => {
-                    const nextPage = new Image();
-                    nextPage.src = page;
-                });
+                const nextPage = document.createElement('link');
+                nextPage.rel = 'prefetch';
+                nextPage.href = page;
+                document.head.appendChild(nextPage);
+            });
             });
         </script>
 
