@@ -33,7 +33,7 @@ function init() {
 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.setPath('./textures/');
-    const texture = textureLoader.load('entrada salinas.jpg', function (texture) {
+    const texture = textureLoader.load('muelle.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
 
@@ -42,7 +42,7 @@ function init() {
     sphere = new THREE.Mesh(sphereGeometry, material);
     scene.add(sphere);
 
-    // --------------------Boton esfera------------------------------------
+    // --------------------Boton esfera salinas------------------------------------
 
     const textureLoader1 = new THREE.TextureLoader();
     textureLoader1.setPath('./textures/');
@@ -57,21 +57,23 @@ function init() {
     scene.add(sphereButton);
 
     //--------------------------------------------------------------------------------
-    // --------------------Boton esfera muelle------------------------------------
+
+    // --------------------Boton esfera entrada salinas------------------------------------
 
     const textureLoader2 = new THREE.TextureLoader();
     textureLoader2.setPath('./textures/');
-    const texture2 = textureLoader2.load('muelle.jpg', function (texture) {
+    const texture2 = textureLoader2.load('entrada salinas.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
     const material2 = new THREE.MeshBasicMaterial({ map: texture2 });
     const sphereButtonGeometry2 = new THREE.SphereGeometry(4, 128, 128);
     //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton2 = new THREE.Mesh(sphereButtonGeometry2, material2);
-    sphereButton2.position.set(-20, 2, -40); 
+    sphereButton2.position.set(-5, 2, -40); 
     scene.add(sphereButton2);
 
     //--------------------------------------------------------------------------------
+
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -108,7 +110,7 @@ function onClickButton(event) {
         window.location.href = 'salinas.html';
     }
     if (intersects2.length > 0) {
-        window.location.href = 'muelle.html';
+        window.location.href = 'entradasal.html';
     }
 }
 

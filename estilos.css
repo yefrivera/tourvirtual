@@ -47,29 +47,3 @@ body {
 }
 
 
-
-
-#imageTransition {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    opacity: 0; /* Comienza con opacidad 0 para ocultar las imágenes al principio */
-    transition: opacity 0.5s ease-in-out; /* Transición de opacidad suave */
-}
-
-#currentImage, #nextImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen al tamaño del contenedor */
-}
-
-#nextImage {
-    opacity: 0; /* La imagen nueva comienza invisible */
-    transition: opacity 0.5s ease-in-out; /* Ajusta la duración y el tipo de transición según lo desees */
-}

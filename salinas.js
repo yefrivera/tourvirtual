@@ -4,8 +4,7 @@ import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRB
 
 let camera, controls;
 let renderer;
-let sphereButton;
-let sphereButtonGlow;
+let sphereButton, sphereButton2;
 let sphere;
 let scene;
 
@@ -27,7 +26,7 @@ function init() {
     scene.add(light);
 
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0.08, 0, 0.1); 
+    camera.position.set(0.8, 0, 1); 
 
     const sphereGeometry = new THREE.SphereGeometry(300, 64, 64);
     sphereGeometry.scale(-1, 1, 1); 
@@ -43,15 +42,36 @@ function init() {
     sphere = new THREE.Mesh(sphereGeometry, material);
     scene.add(sphere);
 
-    //----------------------Boton esfera ----------------------
+    // --------------------Boton esfera entrada salinas------------------------------------
 
-    const sphereButtonGeometry = new THREE.SphereGeometry(3, 128, 128);
-    const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
-    sphereButton = new THREE.Mesh(sphereButtonGeometry, sphereButtonMaterial);
-    sphereButton.position.set(-50, 8, -10); 
+    const textureLoader1 = new THREE.TextureLoader();
+    textureLoader1.setPath('./textures/');
+    const texture1 = textureLoader1.load('entrada salinas.jpg', function (texture) {
+        texture.colorSpace= THREE.SRGBColorSpace; 
+    });
+    const material1 = new THREE.MeshBasicMaterial({ map: texture1 });
+    const sphereButtonGeometry = new THREE.SphereGeometry(4, 128, 128);
+    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
+    sphereButton = new THREE.Mesh(sphereButtonGeometry, material1);
+    sphereButton.position.set(-110, 15, -20); 
     scene.add(sphereButton);
 
-    //-------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    // --------------------Boton esfera muelle------------------------------------
+
+    const textureLoader2 = new THREE.TextureLoader();
+    textureLoader2.setPath('./textures/');
+    const texture2 = textureLoader2.load('muelle.jpg', function (texture) {
+        texture.colorSpace= THREE.SRGBColorSpace; 
+    });
+    const material2 = new THREE.MeshBasicMaterial({ map: texture2 });
+    const sphereButtonGeometry2 = new THREE.SphereGeometry(4, 128, 128);
+    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
+    sphereButton2 = new THREE.Mesh(sphereButtonGeometry2, material2);
+    sphereButton2.position.set(-20, 2, -40); 
+    scene.add(sphereButton2);
+
+    //--------------------------------------------------------------------------------
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -71,7 +91,6 @@ function init() {
     window.addEventListener('resize', onWindowResize);
     renderer.domElement.addEventListener('click', onClickButton);
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
-    //clickableArea.addEventListener('click', onClickButton);
 
 
 }
@@ -83,16 +102,13 @@ function onClickButton(event) {
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObject(sphereButton);
+    const intersects2 = raycaster.intersectObject(sphereButton2);
 
     if (intersects.length > 0) {
-        // Agrega la clase para la transición de salida
-        renderer.domElement.classList.add('fade-out');
-
-        // Espera un breve momento para que se complete la transición
-        setTimeout(() => {
-            // Redirige a la nueva página
-            window.location.href = 'entradasal.html';
-        }, 200); // Ajusta el tiempo de espera (300ms en este ejemplo)
+        window.location.href = 'entradasal.html';
+    }
+    if (intersects2.length > 0) {
+        window.location.href = 'muelle.html';
     }
 }
 
@@ -119,5 +135,5 @@ function animate() {
 }
 
 function render(scene) {
-    renderer.render(scene, camera);
+    renderer.render(scene, camera);
 }
