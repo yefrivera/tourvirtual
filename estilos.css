@@ -4,10 +4,10 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #6dce9e, #5f92c2);
-    height: 100vh; /* Establece la altura de la página al 100% del viewport */
-    display: flex; /* Usa flexbox para centrar verticalmente el contenido */
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido */
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
 .vr-interface {

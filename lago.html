@@ -34,9 +34,8 @@
          <script type="module" src="./lago.js"></script> 
 
          <script>
-            // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
             window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['muelle.html','entradasal.html','salinas.html']; // Lista de páginas a pre-cargar
+                const pagesToPreload = ['muelle.html','entradasal.html','salinas.html']; 
                 pagesToPreload.forEach(page => {
                 const nextPage = document.createElement('link');
                 nextPage.rel = 'prefetch';
@@ -48,8 +47,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(window).on('load', function() {
-                // Cuando se completa la carga de la ventana
-                $('#loading-overlay').fadeOut('slow'); // Oculta la animación de carga
+                $('#loading-overlay').fadeOut('slow'); 
             });
         </script>
 
@@ -57,11 +55,8 @@
         document.addEventListener('DOMContentLoaded', function() {
         const loadingOverlay = document.getElementById('loading-overlay');
         loadingOverlay.addEventListener('click', function() {
-            // Mostrar el overlay de carga
-            loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; // Cambia el fondo a blanco claro
-            // Lógica para cargar la siguiente página (puedes implementar según tu necesidad)
-            // Por ejemplo:
-            window.location.href = ['entradasal.html','muelle.html','salinas.html']; // Cambia 'siguiente_pagina.html' con la URL de la siguiente página
+            loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
+            window.location.href = ['entradasal.html','muelle.html','salinas.html']; 
             });
         });
     </script>

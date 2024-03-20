@@ -18,9 +18,8 @@
     </div>
 
     <script>
-        // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
         window.addEventListener('DOMContentLoaded', () => {
-            const pagesToPreload = ['salinas.html','entradasal.html', 'muelle.html','lago.html']; // Lista de páginas a pre-cargar
+            const pagesToPreload = ['salinas.html','entradasal.html', 'muelle.html','lago.html']; 
             pagesToPreload.forEach(page => {
                 const nextPage = new Image();
                 nextPage.src = page;

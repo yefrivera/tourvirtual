@@ -176,8 +176,6 @@ function onDocumentMouseMove(event) {
             button.scale.x = lerp(button.scale.x, 1.3, speed);
             button.scale.y = lerp(button.scale.y, 1.3, speed);
             button.scale.z = lerp(button.scale.z, 1.3, speed);
-
-            // Acceder directamente a los elementos de texto por sus IDs
             const textOverlay = document.getElementById(`textOverlay${button.userData.id}`);
             if (textOverlay) {
                 textOverlay.style.display = 'block';
@@ -199,7 +197,7 @@ function onDocumentMouseMove(event) {
 
 function updateTextPosition(object, textElement) {
     const vector = new THREE.Vector3();
-    vector.setFromMatrixPosition(object.matrixWorld); // Obtener la posición mundial de la esfera
+    vector.setFromMatrixPosition(object.matrixWorld); 
     vector.project(camera); 
 
     const widthHalf = window.innerWidth / 2;
