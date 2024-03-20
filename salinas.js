@@ -25,12 +25,12 @@ function init() {
     light.position.set(0, 0, 10);
     scene.add(light);
 
+    //---------Creacion esfera entorno inicial----------------
+
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0.8, 0, 1); 
-
     const sphereGeometry = new THREE.SphereGeometry(300, 64, 64);
     sphereGeometry.scale(-1, 1, 1); 
-
     const textureLoader = new THREE.TextureLoader();
     textureLoader.setPath('./textures/');
     const texture = textureLoader.load('salinas.jpg', function (texture) {
@@ -51,8 +51,10 @@ function init() {
     });
     const material1 = new THREE.MeshBasicMaterial({ map: texture1 });
     const sphereButtonGeometry = new THREE.SphereGeometry(4, 128, 128);
-    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton = new THREE.Mesh(sphereButtonGeometry, material1);
+    //------------------------------------
+    sphereButton.userData.id = 1;
+    //-------------------------------
     sphereButton.position.set(-40, 15, -40); 
     scene.add(sphereButton);
 
@@ -66,14 +68,16 @@ function init() {
     });
     const material2 = new THREE.MeshBasicMaterial({ map: texture2 });
     const sphereButtonGeometry2 = new THREE.SphereGeometry(4, 128, 128);
-    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton2 = new THREE.Mesh(sphereButtonGeometry2, material2);
+    //------------------------------------------------
+    sphereButton2.userData.id = 2;
+    //------------------------------------
     sphereButton2.position.set(-20, 2, -40); 
     scene.add(sphereButton2);
 
     //--------------------------------------------------------------------------------
 
-    // --------------------Boton esfera boreal------------------------------------
+    // --------------------Boton esfera lago------------------------------------
 
     const textureLoader3 = new THREE.TextureLoader();
     textureLoader3.setPath('./textures/');
@@ -82,8 +86,10 @@ function init() {
     });
     const material3 = new THREE.MeshBasicMaterial({ map: texture3 });
     const sphereButtonGeometry3 = new THREE.SphereGeometry(4, 128, 128);
-    //const sphereButtonMaterial = new THREE.MeshBasicMaterial({ color: 0x006400, transparent: true, opacity: 0.7 });
     sphereButton3 = new THREE.Mesh(sphereButtonGeometry3, material3);
+    //------------------------------------
+    sphereButton3.userData.id = 3;
+    //---------------------------------
     sphereButton3.position.set(1, 2, -50); 
     scene.add(sphereButton3);
 
@@ -92,11 +98,8 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-
     document.body.appendChild(renderer.domElement);
-
     document.body.appendChild(VRButton.createButton(renderer));
-
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 
@@ -107,9 +110,12 @@ function init() {
     window.addEventListener('resize', onWindowResize);
     renderer.domElement.addEventListener('click', onClickButton);
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
-
+    renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
 
 }
+
+
+//-----Darle a las esferas la funcionalidad de botón---------------
 
 function onClickButton(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -132,6 +138,8 @@ function onClickButton(event) {
     }
 }
 
+//-------------ZOOM-------------------------------------------
+
 function onDocumentMouseWheel(event) {
     event.preventDefault();
     if (event.deltaY < 0) {
@@ -141,6 +149,76 @@ function onDocumentMouseWheel(event) {
     }
     camera.updateProjectionMatrix();
 }
+
+//-------Funcion de que se expandan los botones al pasar el mouse----------------
+
+function lerp(start, end, speed) {
+    return start + (end - start) * speed;
+}
+
+function onDocumentMouseMove(event) {
+    event.preventDefault();
+
+    const mouse = {
+        x: (event.clientX / window.innerWidth) * 2 - 1,
+        y: -(event.clientY / window.innerHeight) * 2 + 1
+    };
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects([sphereButton, sphereButton2, sphereButton3]);
+
+    const speed = 0.2;
+
+    if (intersects.length > 0) {
+        intersects.forEach(intersect => {
+
+            const button = intersect.object;
+            button.scale.x = lerp(button.scale.x, 1.3, speed);
+            button.scale.y = lerp(button.scale.y, 1.3, speed);
+            button.scale.z = lerp(button.scale.z, 1.3, speed);
+
+            // Acceder directamente a los elementos de texto por sus IDs
+            const textOverlay = document.getElementById(`textOverlay${button.userData.id}`);
+            if (textOverlay) {
+                textOverlay.style.display = 'block';
+            }
+        });
+        
+    } else {
+        sphereButton.scale.set(1, 1, 1);
+        sphereButton2.scale.set(1, 1, 1);
+        sphereButton3.scale.set(1, 1, 1);
+
+        document.querySelectorAll('.text-overlay').forEach(textOverlay => {
+            textOverlay.style.display = 'none';
+        });
+    }
+}
+
+//-----------Hacer que el texto sea dependiente de la posición de la esfera boton---------------------------------------------------
+
+function updateTextPosition(object, textElement) {
+    const vector = new THREE.Vector3();
+    vector.setFromMatrixPosition(object.matrixWorld); // Obtener la posición mundial de la esfera
+    vector.project(camera); 
+
+    const widthHalf = window.innerWidth / 2;
+    const heightHalf = window.innerHeight / 2;
+
+    const posX = vector.x * widthHalf + widthHalf;
+    const posY = -(vector.y * heightHalf) + heightHalf - 50;
+
+    textElement.style.left = posX + 'px';
+    textElement.style.top = posY + 'px'; 
+}
+
+function updateTextPositions() {
+    updateTextPosition(sphereButton, textOverlay1);
+    updateTextPosition(sphereButton2, textOverlay2);
+    updateTextPosition(sphereButton3, textOverlay3);
+}
+
+//-----------------------------------------------
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -156,4 +234,5 @@ function animate() {
 
 function render(scene) {
     renderer.render(scene, camera);
+    updateTextPositions();
 }

@@ -13,6 +13,10 @@
             <div class="spinner"></div>
             <p>Cargando...</p>
         </div>
+
+        <div id="textOverlay1" class="text-overlay">Salinas</div>
+        <div id="textOverlay2" class="text-overlay">Entrada Salinas</div>
+        <div id="textOverlay3" class="text-overlay">Lago</div>
         
         <h1></h1>
         
@@ -30,9 +34,8 @@
          <script type="module" src="./muelle.js"></script> 
 
          <script>
-            // Pre-carga de múltiples páginas para reducir el tiempo de espera durante las transiciones
             window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['salinas.html', 'entradasal.html','lago.html']; // Lista de páginas a pre-cargar
+                const pagesToPreload = ['salinas.html', 'entradasal.html','lago.html']; 
                 pagesToPreload.forEach(page => {
                 const nextPage = document.createElement('link');
                 nextPage.rel = 'prefetch';
