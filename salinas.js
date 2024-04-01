@@ -211,9 +211,9 @@ function onClickButton(event) {
     const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
     videoMesh.position.set(-25,15,-30);
 
-    const rotationX = Math.PI / 64; 
+    const rotationX = Math.PI / 10; 
     const rotationY = Math.PI / 4; 
-    const rotationZ = Math.PI / 64; 
+    const rotationZ = Math.PI / -20; 
 
     video.addEventListener('ended', () => {
         document.body.removeChild(videoControls);
