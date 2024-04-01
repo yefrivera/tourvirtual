@@ -17,12 +17,22 @@
         <div id="textOverlay1" class="text-overlay">Entrada salinas</div>
         <div id="textOverlay2" class="text-overlay">Muelle</div>
         <div id="textOverlay3" class="text-overlay">Lago</div>
-        
+
         <h1></h1>
         
-         <div id="content"></div>
+        <div id="content"></div>
 
-         <script type="importmap">
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <video id="video" width="400" controls loop>
+                    <source src="./videos/cabaña.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+
+        <script type="importmap">
             {
                "imports": {
                   "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
@@ -60,6 +70,8 @@
             });
         });
     </script>
+
+
 
       </body> 
 </html>
