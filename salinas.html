@@ -11,7 +11,8 @@
 
         <div id="loading-overlay">
             <div class="spinner"></div>
-            <p>Cargando...</p>
+            <p>¿Ya conocías las termales de Salinas? 
+            </p>
         </div>
 
         <div id="textOverlay1" class="text-overlay">Entrada salinas</div>
@@ -38,9 +39,10 @@
                   "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
                   "three/addons/": "./jsm/"                  
                }
+               
             }
          </script>
-
+   
          <script type="module" src="./salinas.js"></script> 
 
          <script>
@@ -66,12 +68,10 @@
         const loadingOverlay = document.getElementById('loading-overlay');
         loadingOverlay.addEventListener('click', function() {
             loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-            window.location.href = ['entradasal.html','muelle.html','lago.html']; 
+            //window.location.href = ['entradasal.html','muelle.html','lago.html']; 
             });
         });
     </script>
-
-
 
       </body> 
 </html>

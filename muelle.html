@@ -9,9 +9,9 @@
     <body>
         <div id="container"></div>
 
-        <div id="loading-overlay">
+        <div id="loading-overlay2">
             <div class="spinner"></div>
-            <p>Cargando...</p>
+            <p>Los muelles abastecen culturas</p>
         </div>
 
         <div id="textOverlay1" class="text-overlay">Salinas</div>
@@ -48,16 +48,16 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(window).on('load', function() {
-                $('#loading-overlay').fadeOut('slow'); 
+                $('#loading-overlay2').fadeOut('slow'); 
             });
         </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingOverlay = document.getElementById('loading-overlay2');
         loadingOverlay.addEventListener('click', function() {
             loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
-            window.location.href = ['salinas.html','entradasal.html','lago.html']; 
+            //window.location.href = ['salinas.html','entradasal.html','lago.html']; 
         });
     });
     </script>

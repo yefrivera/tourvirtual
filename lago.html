@@ -9,9 +9,9 @@
     <body>
         <div id="container"></div>
 
-        <div id="loading-overlay">
+        <div id="loading-overlay3">
             <div class="spinner"></div>
-            <p>Cargando...</p>
+            <p>Los lagos albergan una gran cantidad de especies</p>
         </div>
 
         <div id="textOverlay1" class="text-overlay">Salinas</div>
@@ -47,16 +47,16 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(window).on('load', function() {
-                $('#loading-overlay').fadeOut('slow'); 
+                $('#loading-overlay3').fadeOut('slow'); 
             });
         </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingOverlay = document.getElementById('loading-overlay3');
         loadingOverlay.addEventListener('click', function() {
             loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
-            window.location.href = ['entradasal.html','muelle.html','salinas.html']; 
+            //window.location.href = ['entradasal.html','muelle.html','salinas.html']; 
             });
         });
     </script>

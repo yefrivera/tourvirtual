@@ -8,6 +8,7 @@ let sphereButton, sphereButton2,sphereButton3;
 let buttonInfo;
 let sphere;
 let scene;
+let clock;
 
 
 const MIN_ZOOM = 1;
@@ -22,6 +23,7 @@ animate();
 
 function init() {
     scene = new THREE.Scene();
+    clock = new THREE.Clock();
 
     const light = new THREE.PointLight(0xFFFFFF, 2);
     light.position.set(0, 0, 10);
@@ -94,7 +96,7 @@ function init() {
     sphereButton3.position.set(1, 2, -50); 
     scene.add(sphereButton3);
 
-    //-----------Creación de boton de + info---------------------------------------------------------------------
+    //-----------Creación de boton de + info--------------------------------------
 
     const textureLoader4 = new THREE.TextureLoader();
     textureLoader4.setPath('./textures/');
@@ -107,7 +109,7 @@ function init() {
     buttonInfo.position.set(-40,-9,-50);
     scene.add(buttonInfo);
     
-    //-------------------------------------------------
+    //----------------------------------------------------------------------
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -152,9 +154,10 @@ function onClickButton(event) {
         window.location.href = 'lago.html';
     }
     if (intersects4.length > 0) {
+
     //--------Video----------------------------------------------
-    /*
-    const modal = document.getElementById('myModal');
+    
+    /*const modal = document.getElementById('myModal');
     modal.style.display = 'block';
     video.play();
     const closeSpan = document.getElementsByClassName('close')[0];
@@ -162,6 +165,8 @@ function onClickButton(event) {
         video.muted = true;
         modal.style.display = 'none';
     };*/
+
+    
     const videoControls = document.createElement('div');
     videoControls.style.position = 'absolute';
     videoControls.style.bottom = '20px';
@@ -320,7 +325,22 @@ function animate() {
     });
 }
 
+let animationEnabled = true; 
+document.addEventListener('click', () => {
+    animationEnabled = !animationEnabled; // Cambiar el estado de la animación al hacer clic
+});
+
+
+// Función de renderizado
 function render(scene) {
     renderer.render(scene, camera);
     updateTextPositions();
+
+    // Rotación automática solo si no hay interacción del mouse
+    if (renderer.xr.isPresenting === false && animationEnabled) {
+        const time = clock.getElapsedTime();
+        camera.rotation.y += 0.001;
+        //camera.position.x = Math.sin(time) * 0.5;
+        //camera.position.z = Math.cos(time) * 0.5;
+    }
 }
