@@ -230,7 +230,22 @@ function animate() {
     });
 }
 
+let animationEnabled = true; 
+document.addEventListener('click', () => {
+    animationEnabled = !animationEnabled; // Cambiar el estado de la animación al hacer clic
+});
+
+
+// Función de renderizado
 function render(scene) {
     renderer.render(scene, camera);
     updateTextPositions();
+
+    // Rotación automática solo si no hay interacción del mouse
+    if (renderer.xr.isPresenting === false && animationEnabled) {
+        //const time = clock.getElapsedTime();
+        camera.rotation.y += 0.0007;
+        //camera.position.x += 0.001;
+        //camera.position.z += 0.001;
+    }
 }

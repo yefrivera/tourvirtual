@@ -338,9 +338,9 @@ function render(scene) {
 
     // Rotación automática solo si no hay interacción del mouse
     if (renderer.xr.isPresenting === false && animationEnabled) {
-        const time = clock.getElapsedTime();
-        camera.rotation.y += 0.001;
-        //camera.position.x = Math.sin(time) * 0.5;
-        //camera.position.z = Math.cos(time) * 0.5;
+        //const time = clock.getElapsedTime();
+        camera.rotation.y += 0.0007;
+        //camera.position.x += 0.001;
+        //camera.position.z += 0.001;
     }
 }
