@@ -1,77 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Salinas</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="container"></div>
+<head>
+    <title>Salinas</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container"></div>
 
-        <div id="loading-overlay">
-            <div class="spinner"></div>
-            <p>¿Ya conocías las termales de Salinas? 
-            </p>
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p>¿Ya conocías las termales de Salinas?</p>
+    </div>
+
+    <div id="textOverlay1" class="text-overlay">Entrada salinas</div>
+    <div id="textOverlay2" class="text-overlay">Muelle</div>
+    <div id="textOverlay3" class="text-overlay">Lago</div>
+
+    <h1></h1>
+    
+    <div id="content"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <video id="video" width="400" controls loop>
+                <source src="./videos/cabaña.mp4" type="video/mp4">
+            </video>
         </div>
+    </div>
 
-        <div id="textOverlay1" class="text-overlay">Entrada salinas</div>
-        <div id="textOverlay2" class="text-overlay">Muelle</div>
-        <div id="textOverlay3" class="text-overlay">Lago</div>
+    <div class="off-screen-menu">
+        <ul>
+            <li><a href="#"><img src="./textures/VR.png"/></a></li>
+            <li><a href="#"><img src="./textures/muted.png" /></a></li>
+            <li><a href="#"><img src="./textures/expand.png"/></a></li>
+            <li><a href="#"><img src="./textures/x.png"/></a></li>
+            <li><a href="#"><img src="./textures/f.png"/></a></li>
+            <li><a href="#"><img src="./textures/ig.png"/></a></li>
 
-        <h1></h1>
-        
-        <div id="content"></div>
+            <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
+            <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
+            <li><a href="#" class="share-instagram"><img src="./textures/ig.png"/></a></li>
+        </ul>
+    </div>
 
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <video id="video" width="400" controls loop>
-                    <source src="./videos/cabaña.mp4" type="video/mp4">
-                </video>
-            </div>
+    <nav>
+        <div class="ham-menu">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
+    </nav>
 
-
-        <script type="importmap">
-            {
-               "imports": {
-                  "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
-                  "three/addons/": "./jsm/"                  
-               }
-               
-            }
-         </script>
+    <script type="importmap">
+        {
+           "imports": {
+              "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+              "three/addons/": "./jsm/"                  
+           }
+        }
+    </script>
    
-         <script type="module" src="./salinas.js"></script> 
+    <script type="module" src="./salinas.js"></script> 
 
-         <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['muelle.html','entradasal.html','lago.html']; 
-                pagesToPreload.forEach(page => {
-                const nextPage = document.createElement('link');
-                nextPage.rel = 'prefetch';
-                nextPage.href = page;
-                document.head.appendChild(nextPage);
-            });});
-        </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const pagesToPreload = ['muelle.html','entradasal.html','lago.html']; 
+            pagesToPreload.forEach(page => {
+            const nextPage = document.createElement('link');
+            nextPage.rel = 'prefetch';
+            nextPage.href = page;
+            document.head.appendChild(nextPage);
+        });});
+    </script>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(window).on('load', function() {
-                $('#loading-overlay').fadeOut('slow'); 
-            });
-        </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            $('#loading-overlay').fadeOut('slow'); 
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const loadingOverlay = document.getElementById('loading-overlay');
-        loadingOverlay.addEventListener('click', function() {
-            loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-            //window.location.href = ['entradasal.html','muelle.html','lago.html']; 
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.addEventListener('click', function() {
+                loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
             });
         });
     </script>
 
-      </body> 
+    <script>
+        const hamMenu = document.querySelector(".ham-menu");
+        const offScreenMenu = document.querySelector(".off-screen-menu");
+    
+        hamMenu.addEventListener("click", () => {
+        hamMenu.classList.toggle("active");
+        offScreenMenu.classList.toggle("active");
+        });
+
+            document.addEventListener('DOMContentLoaded', function() {
+            // Evento de clic para el enlace de Twitter
+            document.querySelector('.share-x').addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                // Abre la ventana de compartir de Twitter
+            window.open('https://x.com/share?url=' + encodeURIComponent(window.location.href), 'Compartir en Twitter', 'width=600,height=400');
+            });
+
+            // Evento de clic para el enlace de Facebook
+            document.querySelector('.share-facebook').addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                // Abre la ventana de compartir de Facebook
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'Compartir en Facebook', 'width=600,height=400');
+            });
+
+            // Evento de clic para el enlace de Instagram
+            document.querySelector('.share-instagram').addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                // Abre la ventana de compartir de Instagram
+                window.open('https://www.instagram.com/sharer.php?u=' + encodeURIComponent(window.location.href), 'Compartir en Instagram', 'width=600,height=400');
+            });
+        });
+    </script>
+</body> 
 </html>
