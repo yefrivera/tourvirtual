@@ -39,7 +39,7 @@
 
             <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
             <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
-            <li><a href="#" class="share-instagram"><img src="./textures/ig.png"/></a></li>
+            <li><a href="https://www.instagram.com/viajessinlimitespopayan/"><img src="./textures/ig.png"/></a></li>
         </ul>
     </div>
 
@@ -113,14 +113,6 @@
 
                 // Abre la ventana de compartir de Facebook
                 window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'Compartir en Facebook', 'width=600,height=400');
-            });
-
-            // Evento de clic para el enlace de Instagram
-            document.querySelector('.share-instagram').addEventListener('click', function(event) {
-                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
-
-                // Abre la ventana de compartir de Instagram
-                window.open('https://www.instagram.com/sharer.php?u=' + encodeURIComponent(window.location.href), 'Compartir en Instagram', 'width=600,height=400');
             });
         });
     </script>
