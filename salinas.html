@@ -35,7 +35,7 @@
         <ul>
             <li><a href="#"><img src="./textures/VR.png"/></a></li>
             <li><a href="#"><img src="./textures/muted.png" /></a></li>
-            <li><a href="#" id="expand-btn"><img src="./textures/expand.png"/></a></li>
+            <li><a href="#" id="expand-btn"><img class="normal" src="./textures/fullscreen.png" data-alt-src="./textures/reducescreen.png" /></a></li>
 
             <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
             <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
@@ -99,25 +99,73 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Evento de clic para el enlace de Twitter
+            
+            var expandBtn = document.getElementById('expand-btn');
+            // Obtener referencia a la imagen dentro del botón
+            var expandBtnImg = expandBtn.querySelector('img');
 
-            document.getElementById('expand-btn').addEventListener('click', function(event) {
+            // Evento de clic para el botón de expansión
+            expandBtn.addEventListener('click', function(event) {
                 event.preventDefault(); // Evita el comportamiento predeterminado del enlace
 
                 // Obtener el elemento a expandir
                 var element = document.documentElement;
 
-                // Solicitar el modo de pantalla completa
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.mozRequestFullScreen) { /* Firefox */
-                    element.mozRequestFullScreen();
-                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                    element.webkitRequestFullscreen();
-                } else if (element.msRequestFullscreen) { /* IE/Edge */
-                    element.msRequestFullscreen();
+                // Si ya está en modo de pantalla completa, sal de pantalla completa
+                if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                    exitFullscreen();
+                } else { // Si no está en modo de pantalla completa, entra en pantalla completa
+                    enterFullscreen();
                 }
             });
+
+            // Función para entrar en el modo de pantalla completa
+            function enterFullscreen() {
+                var element = document.documentElement;
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+            }
+
+            // Función para salir del modo de pantalla completa
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+
+            // Evento para detectar el cambio de estado de pantalla completa
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+            // Función para manejar el cambio de estado de pantalla completa
+            function handleFullscreenChange() {
+                // Verificar si estamos en modo de pantalla completa
+                var isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+                
+                // Actualizar la imagen del botón según el estado de pantalla completa
+                if (isFullscreen) {
+                    expandBtnImg.src = expandBtnImg.getAttribute('data-alt-src');
+                } else {
+                    expandBtnImg.src = expandBtnImg.getAttribute('data-original-src');
+                }
+            }
+            
+
 
             document.querySelector('.share-x').addEventListener('click', function(event) {
                 event.preventDefault(); // Evita el comportamiento predeterminado del enlace
