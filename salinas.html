@@ -35,7 +35,7 @@
         <ul>
             <li><a href="#"><img src="./textures/VR.png"/></a></li>
             <li><a href="#"><img src="./textures/muted.png" /></a></li>
-            <li><a href="#"><img src="./textures/expand.png"/></a></li>
+            <li><a href="#" id="expand-btn"><img src="./textures/expand.png"/></a></li>
 
             <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
             <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
@@ -98,8 +98,27 @@
         offScreenMenu.classList.toggle("active");
         });
 
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // Evento de clic para el enlace de Twitter
+
+            document.getElementById('expand-btn').addEventListener('click', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                // Obtener el elemento a expandir
+                var element = document.documentElement;
+
+                // Solicitar el modo de pantalla completa
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) { /* Firefox */
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { /* IE/Edge */
+                    element.msRequestFullscreen();
+                }
+            });
+
             document.querySelector('.share-x').addEventListener('click', function(event) {
                 event.preventDefault(); // Evita el comportamiento predeterminado del enlace
 
@@ -123,6 +142,8 @@
                 window.open('https://www.instagram.com/viajessinlimitespopayan?u=' + encodeURIComponent(window.location.href), 'Compartir en Instagram', 'width=600,height=400');
             });
         });
+
+
     </script>
 </body> 
 </html>
