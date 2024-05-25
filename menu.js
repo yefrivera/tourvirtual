@@ -84,9 +84,4 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), 'Compartir en Facebook', 'width=600,height=400');
     });
 
-    document.querySelector('.share-instagram').addEventListener('click', function(event) {
-        event.preventDefault(); 
-
-        window.open('https://www.instagram.com/viajessinlimitespopayan?u=' + encodeURIComponent(window.location.href), 'Compartir en Instagram', 'width=600,height=400');
-    });
 });

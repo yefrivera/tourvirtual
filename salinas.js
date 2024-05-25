@@ -21,6 +21,7 @@ const mouse = new THREE.Vector2();
 init();
 animate();
 
+
 function init() {
     scene = new THREE.Scene();
     clock = new THREE.Clock();
@@ -114,8 +115,9 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
+    document.getElementById('vr-btn').appendChild(VRButton.createButton(renderer));
     document.body.appendChild(renderer.domElement);
-    document.body.appendChild(VRButton.createButton(renderer));
+    //document.body.appendChild(VRButton.createButton(renderer));
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 
@@ -154,18 +156,6 @@ function onClickButton(event) {
         window.location.href = 'lago.html';
     }
     if (intersects4.length > 0) {
-
-    //--------Video----------------------------------------------
-    
-    /*const modal = document.getElementById('myModal');
-    modal.style.display = 'block';
-    video.play();
-    const closeSpan = document.getElementsByClassName('close')[0];
-    closeSpan.onclick = () => {
-        video.muted = true;
-        modal.style.display = 'none';
-    };*/
-
     
     const videoControls = document.createElement('div');
     videoControls.style.position = 'absolute';
