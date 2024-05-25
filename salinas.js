@@ -229,8 +229,27 @@ function onClickButton(event) {
     videoMesh.rotation.set(rotationX, rotationY, rotationZ);
     scene.add(videoMesh);
 
+    //--------muted------------------------
+    
+    const muteBtn = document.getElementById('mute-btn');
+
+    // Agregar un evento de clic al botón "muted" para controlar el estado de silencio del video y cambiar la imagen
+    muteBtn.addEventListener('click', function() {
+        if (video.muted) {
+            video.muted = false;
+            // Cambiar la imagen a "unmuted"
+            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-original-src');
+        } else {
+            video.muted = true;
+            // Cambiar la imagen a "muted"
+            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+        }
+    });
+
     }
 }
+
+
 
 //-------------ZOOM-------------------------------------------
 
@@ -344,3 +363,6 @@ function render(scene) {
         //camera.position.z += 0.001;
     }
 }
+
+
+
