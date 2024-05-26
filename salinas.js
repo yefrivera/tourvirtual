@@ -14,6 +14,10 @@ let clock;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 5;
 
+let isPinching = false;
+let initialPinchDistance = 0;
+let initialZoom = 1;
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
