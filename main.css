@@ -104,6 +104,30 @@ a, button, input, select {
 	padding: 10px;
 }
 
+/*sonido--------------*/
+body {
+    touch-action: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
 /* Estilos de hamb.css */
 /* Off-screen menu */
 .off-screen-menu {

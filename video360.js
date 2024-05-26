@@ -74,6 +74,21 @@ function init() {
 
 }
 
+///---------------------activar sonido-------------
+
+$(document).ready(function(){
+    var answer = confirm("¿Desea activar el sonido?");
+    var video = document.getElementById('video');
+    
+    if (answer) {
+        // Si el usuario desea activar el sonido, desmutea el video
+        video.muted = false;
+    } else {
+        // Si el usuario no desea activar el sonido, mantiene el video silenciado
+        video.muted = true;
+    }
+});
+
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
