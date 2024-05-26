@@ -48,7 +48,7 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );*/
 
-    renderer = new THREE.WebGLRenderer();
+    /*renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild( renderer.domElement );
@@ -62,7 +62,20 @@ function init() {
     const vrMenuButton = document.getElementById('vr-btn');
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
+    });*/
+    
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.xr.enabled = true;
+    const vrButton = VRButton.createButton(renderer);
+    vrButton.style.display = 'none';
+    const vrMenuButton = document.getElementById('vr-btn');
+    vrMenuButton.addEventListener('click', () => {
+        vrButton.click();
     });
+    container.appendChild( renderer.domElement );
+    controls = new OrbitControls(camera, renderer.domElement);
+    window.addEventListener('resize', onWindowResize, false);
 
     document.addEventListener( 'pointerdown', onPointerDown );
     document.addEventListener( 'pointermove', onPointerMove );
