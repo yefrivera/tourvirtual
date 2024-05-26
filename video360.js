@@ -1,4 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 let camera, scene, renderer;
@@ -49,7 +50,7 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild( renderer.domElement );
-    
+    controls = new OrbitControls(camera, renderer.domElement);
     // Habilitar la funcionalidad de realidad virtual
     renderer.xr.enabled = true;
     
