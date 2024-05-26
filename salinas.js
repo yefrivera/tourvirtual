@@ -118,6 +118,7 @@ function init() {
 
     // Crear el VRButton sin añadirlo automáticamente al DOM
     const vrButton = VRButton.createButton(renderer);
+    //document.body.appendChild(vrButton); // Añadir el VRButton al DOM pero oculto
     vrButton.style.display = 'none';
 
     // Añadir funcionalidad del botón de VR al botón del menú
@@ -125,6 +126,7 @@ function init() {
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
+
 
     document.body.appendChild(renderer.domElement);
     controls = new OrbitControls(camera, renderer.domElement);
@@ -139,7 +141,42 @@ function init() {
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
 
+    renderer.domElement.addEventListener('touchstart', onTouchStart, false);
+    renderer.domElement.addEventListener('touchmove', onTouchMove, false);
+    renderer.domElement.addEventListener('touchend', onTouchEnd, false);
+
 }
+
+// Eventos táctiles para zoom en dispositivos móviles
+function onTouchStart(event) {
+    if (event.touches.length === 2) {
+        isPinching = true;
+        initialPinchDistance = getPinchDistance(event);
+        initialZoom = camera.zoom;
+    }
+}
+
+function onTouchMove(event) {
+    if (isPinching && event.touches.length === 2) {
+        const newPinchDistance = getPinchDistance(event);
+        const zoomFactor = newPinchDistance / initialPinchDistance;
+        camera.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, initialZoom * zoomFactor));
+        camera.updateProjectionMatrix();
+    }
+}
+
+function onTouchEnd(event) {
+    if (event.touches.length < 2) {
+        isPinching = false;
+    }
+}
+
+function getPinchDistance(event) {
+    const dx = event.touches[0].clientX - event.touches[1].clientX;
+    const dy = event.touches[0].clientY - event.touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 
 
 //-----Darle a las esferas la funcionalidad de botón---------------
