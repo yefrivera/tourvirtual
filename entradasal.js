@@ -11,6 +11,10 @@ let scene;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 5;
 
+let isPinching = false;
+let initialPinchDistance = 0;
+let initialZoom = 1;
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -98,8 +102,13 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
+    const vrButton = VRButton.createButton(renderer);
+    vrButton.style.display = 'none';
+    const vrMenuButton = document.getElementById('vr-btn');
+    vrMenuButton.addEventListener('click', () => {
+        vrButton.click();
+    });
     document.body.appendChild(renderer.domElement);
-    document.body.appendChild(VRButton.createButton(renderer));
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 
@@ -112,8 +121,42 @@ function init() {
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
 
+    renderer.domElement.addEventListener('touchstart', onTouchStart, false);
+    renderer.domElement.addEventListener('touchmove', onTouchMove, false);
+    renderer.domElement.addEventListener('touchend', onTouchEnd, false);
+
+}
+//-------------------------------------------
+
+// Eventos táctiles para zoom en dispositivos móviles
+function onTouchStart(event) {
+    if (event.touches.length === 2) {
+        isPinching = true;
+        initialPinchDistance = getPinchDistance(event);
+        initialZoom = camera.zoom;
+    }
 }
 
+function onTouchMove(event) {
+    if (isPinching && event.touches.length === 2) {
+        const newPinchDistance = getPinchDistance(event);
+        const zoomFactor = newPinchDistance / initialPinchDistance;
+        camera.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, initialZoom * zoomFactor));
+        camera.updateProjectionMatrix();
+    }
+}
+
+function onTouchEnd(event) {
+    if (event.touches.length < 2) {
+        isPinching = false;
+    }
+}
+
+function getPinchDistance(event) {
+    const dx = event.touches[0].clientX - event.touches[1].clientX;
+    const dy = event.touches[0].clientY - event.touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
 
 //-----Darle a las esferas la funcionalidad de botón---------------
 

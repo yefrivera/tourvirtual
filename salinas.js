@@ -119,19 +119,12 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-
-    // Crear el VRButton sin añadirlo automáticamente al DOM
     const vrButton = VRButton.createButton(renderer);
-    //document.body.appendChild(vrButton); // Añadir el VRButton al DOM pero oculto
     vrButton.style.display = 'none';
-
-    // Añadir funcionalidad del botón de VR al botón del menú
     const vrMenuButton = document.getElementById('vr-btn');
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-
-
     document.body.appendChild(renderer.domElement);
     controls = new OrbitControls(camera, renderer.domElement);
 
@@ -207,7 +200,7 @@ function onClickButton(event) {
     }
     if (intersects4.length > 0) {
     
-    const videoControls = document.createElement('div');
+    /*const videoControls = document.createElement('div');
     videoControls.style.position = 'absolute';
     videoControls.style.bottom = '20px';
     videoControls.style.left = '20px';
@@ -238,7 +231,7 @@ function onClickButton(event) {
     videoControls.appendChild(playButton);
     videoControls.appendChild(pauseButton);
     videoControls.appendChild(closeButton);
-    document.body.appendChild(videoControls);
+    document.body.appendChild(videoControls);*/
 
     const video = document.createElement('video');
     video.src = './videos/cabaña1.mp4';

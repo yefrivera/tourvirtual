@@ -184,7 +184,7 @@ body {
 /* Estilos de hamb.css */
 /* Off-screen menu */
 .off-screen-menu {
-    height: 75vh; 
+    height: 68vh; 
     width: 100%;
     max-width: 114px;
     position: fixed;
