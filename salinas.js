@@ -119,16 +119,14 @@ function init() {
     // Crear el VRButton sin añadirlo automáticamente al DOM
     const vrButton = VRButton.createButton(renderer);
     vrButton.style.display = 'none';
-    document.body.appendChild(vrButton);
 
     // Añadir funcionalidad del botón de VR al botón del menú
     const vrMenuButton = document.getElementById('vr-btn');
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-    //document.getElementById('vr-btn').appendChild(VRButton.createButton(renderer));
+
     document.body.appendChild(renderer.domElement);
-    //document.body.appendChild(VRButton.createButton(renderer));
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 
