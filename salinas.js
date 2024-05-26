@@ -125,7 +125,7 @@ function init() {
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-    document.body.appendChild(renderer.domElement);
+    container.appendChild( renderer.domElement );
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 
@@ -254,8 +254,7 @@ function onClickButton(event) {
     const rotationZ = Math.PI / -20; 
 
     video.addEventListener('ended', () => {
-        document.body.removeChild(videoControls);
-        scene.remove(videoMesh);
+        scene.remove(videoMesh); // Elimina la malla de video de la escena
     });
 
     video.play();

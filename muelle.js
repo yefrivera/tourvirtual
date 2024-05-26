@@ -108,7 +108,7 @@ function init() {
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-    document.body.appendChild(renderer.domElement);
+    container.appendChild( renderer.domElement );
     controls = new OrbitControls(camera, renderer.domElement);
 
     controls.enableZoom = true; 

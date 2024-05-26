@@ -1,5 +1,4 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 let camera, scene, renderer;
@@ -19,7 +18,7 @@ animate();
 
 function init() {
 
-    const container = document.getElementById( 'content' );
+    const container = document.getElementById( 'container' );
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .25, 10 );
 
@@ -32,17 +31,35 @@ function init() {
     const video = document.getElementById( 'video' );
     video.play();
 
+    video.muted = false;
+
     const texture = new THREE.VideoTexture( video );
     texture.colorSpace = THREE.SRGBColorSpace;
     const material = new THREE.MeshBasicMaterial( { map: texture } );
 
     const mesh = new THREE.Mesh( geometry, material );
     scene.add( mesh );
-
-    renderer = new THREE.WebGLRenderer();
+ 
+    /*renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    container.appendChild( renderer.domElement );*/
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild( renderer.domElement );
+    
+    // Habilitar la funcionalidad de realidad virtual
+    renderer.xr.enabled = true;
+    
+    // Crear y configurar el botón de VR
+    const vrButton = VRButton.createButton(renderer);
+    vrButton.style.display = 'none';
+    const vrMenuButton = document.getElementById('vr-btn');
+    vrMenuButton.addEventListener('click', () => {
+        vrButton.click();
+    });
 
     document.addEventListener( 'pointerdown', onPointerDown );
     document.addEventListener( 'pointermove', onPointerMove );
