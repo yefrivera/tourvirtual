@@ -3,6 +3,7 @@ import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/cont
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
 let camera, scene, renderer;
+let controls;
 
 let isUserInteracting = false,
     lon = 0, lat = 0,
@@ -28,6 +29,7 @@ function init() {
     const geometry = new THREE.SphereGeometry( 5, 60, 40 );
     // invert the geometry on the x-axis so that all of the faces point inward
     geometry.scale( - 1, 1, 1 );
+
 
     const video = document.getElementById( 'video' );
     video.play();
