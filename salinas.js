@@ -115,7 +115,18 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-    document.getElementById('vr-btn').appendChild(VRButton.createButton(renderer));
+
+    // Crear el VRButton sin añadirlo automáticamente al DOM
+    const vrButton = VRButton.createButton(renderer);
+    vrButton.style.display = 'none';
+    document.body.appendChild(vrButton);
+
+    // Añadir funcionalidad del botón de VR al botón del menú
+    const vrMenuButton = document.getElementById('vr-btn');
+    vrMenuButton.addEventListener('click', () => {
+        vrButton.click();
+    });
+    //document.getElementById('vr-btn').appendChild(VRButton.createButton(renderer));
     document.body.appendChild(renderer.domElement);
     //document.body.appendChild(VRButton.createButton(renderer));
     controls = new OrbitControls(camera, renderer.domElement);
