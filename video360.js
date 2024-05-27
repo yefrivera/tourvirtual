@@ -94,6 +94,7 @@ function onWindowResize() {
 
 }
 
+
 function onPointerDown( event ) {
 
     isUserInteracting = true;

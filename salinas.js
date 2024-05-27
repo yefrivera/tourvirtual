@@ -134,6 +134,7 @@ function init() {
     controls.rotateSpeed = -0.3;
 
     window.addEventListener('resize', onWindowResize);
+    
     renderer.domElement.addEventListener('click', onClickButton);
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
