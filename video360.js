@@ -30,18 +30,17 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-
     const vrButton = VRButton.createButton(renderer);
     vrButton.style.display = 'none';  // Ocultar el botón VR por defecto
     const vrMenuButton = document.getElementById('vr-btn');
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-
     container.appendChild(renderer.domElement);
-    container.appendChild(vrButton);
-
+    //container.appendChild(vrButton);
     controls = new OrbitControls(camera, renderer.domElement);
+    window.addEventListener('resize', onWindowResize);
+
     controls.enableZoom = true;
     controls.zoomSpeed = 0.3;
     controls.enablePan = false;
@@ -50,7 +49,7 @@ function init() {
     controls.target.set(0, 0, 0);  // Ajuste del objetivo inicial de los controles
     controls.update();
 
-    window.addEventListener('resize', onWindowResize);
+    
 
     const muteBtn = document.getElementById('mute-btn');
     $(document).ready(function () {

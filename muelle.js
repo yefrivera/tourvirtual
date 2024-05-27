@@ -110,13 +110,14 @@ function init() {
     });
     container.appendChild( renderer.domElement );
     controls = new OrbitControls(camera, renderer.domElement);
+    window.addEventListener('resize', onWindowResize);
 
     controls.enableZoom = true; 
     controls.zoomSpeed = 0.3; 
     controls.enablePan = false;
     controls.rotateSpeed = -0.3;
 
-    window.addEventListener('resize', onWindowResize);
+    
     renderer.domElement.addEventListener('click', onClickButton);
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
