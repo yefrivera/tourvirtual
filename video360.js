@@ -5,17 +5,19 @@ import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRB
 let camera, scene, renderer, controls;
 
 init();
-animate();
 
 function init() {
     const container = document.getElementById('container');
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
- 
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.25, 10);
+    
+    // Configurar la posición inicial de la cámara
+    camera.position.set(1, 1, 1);  // Ajusta estos valores según tus necesidades
+
     scene = new THREE.Scene();
 
     const geometry = new THREE.SphereGeometry(5, 60, 40);
-    geometry.scale(-1, 1, 1);  // Invert the geometry on the x-axis so that all of the faces point inward
+    geometry.scale(-1, 1, 1);  // Invertir la geometría en el eje x para que todas las caras apunten hacia adentro
 
     const video = document.getElementById('video');
     video.play();
@@ -44,13 +46,16 @@ function init() {
     controls.zoomSpeed = 0.3;
     controls.enablePan = false;
     controls.rotateSpeed = -0.3;
-    camera.position.set(1.8, 1.2, 0.5);  // Set camera initial position
+
+    // Configurar el objetivo de los controles y actualizar
+    controls.target.set(0, 0, 0);  // Ajusta si es necesario
+    controls.update();
 
     window.addEventListener('resize', onWindowResize);
 
-    // Sound activation prompt
+    // Solicitar activar sonido
     const muteBtn = document.getElementById('mute-btn');
-    $(document).ready(function(){
+    $(document).ready(function() {
         var answer = confirm("¿Desea activar el sonido?");
         if (answer) {
             video.muted = false;
@@ -60,6 +65,9 @@ function init() {
         }
         video.play();
     });
+
+    // Usar setAnimationLoop para manejar el renderizado en modo VR
+    renderer.setAnimationLoop(animate);
 }
 
 function onWindowResize() {
@@ -69,7 +77,6 @@ function onWindowResize() {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
-    controls.update();  // Update OrbitControls
+    controls.update();  // Actualizar OrbitControls
     renderer.render(scene, camera);
 }
