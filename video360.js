@@ -1,6 +1,10 @@
 import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
+import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
+
 
 let camera, scene, renderer;
+let controls;
 
 let isUserInteracting = false,
     lon = 0, lat = 0,
@@ -36,11 +40,22 @@ function init() {
 
     const mesh = new THREE.Mesh( geometry, material );
     scene.add( mesh );
+    //----------------------------------------------
 
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.xr.enabled = true;
+    const vrButton = VRButton.createButton(renderer);
+    vrButton.style.display = 'none';
+    const vrMenuButton = document.getElementById('vr-btn');
+    vrMenuButton.addEventListener('click', () => {
+        vrButton.click();
+    });
     container.appendChild( renderer.domElement );
+    controls = new OrbitControls(camera, renderer.domElement);
+    window.addEventListener('resize', onWindowResize, false);
+
+    //---------------------------------------------------
 
     document.addEventListener( 'pointerdown', onPointerDown );
     document.addEventListener( 'pointermove', onPointerMove );
@@ -51,6 +66,22 @@ function init() {
     window.addEventListener( 'resize', onWindowResize );
 
 }
+
+//------------activar sonido-----
+$(document).ready(function(){
+    var answer = confirm("¿Desea activar el sonido?");
+    var video = document.getElementById('video');
+    
+    if (answer) {
+        // Si el usuario desea activar el sonido, desmutea el video
+        video.muted = false;
+    } else {
+        // Si el usuario no desea activar el sonido, mantiene el video silenciado
+        video.muted = true;
+    }
+    video.play();
+});
+
 
 function onWindowResize() {
 
