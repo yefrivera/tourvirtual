@@ -63,7 +63,7 @@ function init() {
 
     //
 
-    window.addEventListener( 'resize', onWindowResize );
+    //window.addEventListener( 'resize', onWindowResize );
 
 }
 const muteBtn = document.getElementById('mute-btn');
