@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Video360</title>
+		<title>Video 360</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -15,43 +15,18 @@
 
 		<div id="container"></div>
 
-		<div class="off-screen-menu">
-			<ul>
-			<li><a href="#" id="vr-btn"><img src="./textures/VR.png"/></a></li>
-			  <li>
-				<a href="#" id="mute-btn">
-				  <img id="mute-icon" class="normal" src="./textures/unmuted.png" data-original-src="./textures/unmuted.png" data-alt-src="./textures/muted.png" />
-				</a>
-			  </li>
-			  <li><a href="#" id="expand-btn"><img class="normal" src="./textures/fullscreen.png" data-original-src="./textures/fullscreen.png" data-alt-src="./textures/reducescreen.png" /></a></li>
-			  <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
-			  <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
-			</ul>
-		  </div>
-	
-		<nav>
-			<div class="ham-menu">
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		</nav>
-
 		<video id="video" loop muted crossOrigin="anonymous" playsinline style="display:none">
-			<source src="./videos/360p.mp4">
+			<source src="videos/v360.webm">
+			<source src="videos/v360.mp4">
 		</video>
 
-        <script type="importmap">
-            {
-                "imports": {
-                    "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
-                    "three/addons/": "./jsm/"                  
-                }
-            }
-        </script>
+		<script type="importmap">
+			{
+			   "imports": {
+				  "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+				  "three/addons/": "./jsm/"                  
+			   }
+			}
+		</script>
 
-		<script type="module" src="./video360.js"></script> 
-		<script type="module" src="./menu.js"></script> 
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	</body>
-</html>
+		<script type="module" src="./video360.js"></script>
