@@ -53,7 +53,7 @@ function init() {
     });
     container.appendChild( renderer.domElement );
     controls = new OrbitControls(camera, renderer.domElement);
-    window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('resize', onWindowResize);
 
     //---------------------------------------------------
 
