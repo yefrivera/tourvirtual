@@ -49,7 +49,10 @@ function init() {
     controls.target.set(0, 0, 0);  // Ajuste del objetivo inicial de los controles
     controls.update();
 
-    
+    // Escuchar el evento 'end' de la sesión XR para restablecer la posición de la cámara
+    renderer.xr.addEventListener('sessionend', () => {
+        camera.position.set(0, 0, 0.1);  // Restablecer la posición inicial de la cámara
+    });
 
     const muteBtn = document.getElementById('mute-btn');
     $(document).ready(function () {
