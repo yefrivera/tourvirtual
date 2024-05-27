@@ -66,7 +66,7 @@ function init() {
     window.addEventListener( 'resize', onWindowResize );
 
 }
-
+const muteBtn = document.getElementById('mute-btn');
 //------------activar sonido-----
 $(document).ready(function(){
     var answer = confirm("¿Desea activar el sonido?");
@@ -75,9 +75,11 @@ $(document).ready(function(){
     if (answer) {
         // Si el usuario desea activar el sonido, desmutea el video
         video.muted = false;
+        
     } else {
         // Si el usuario no desea activar el sonido, mantiene el video silenciado
         video.muted = true;
+        muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
     }
     video.play();
 });
