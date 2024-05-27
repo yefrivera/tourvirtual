@@ -10,9 +10,7 @@ function init() {
     const container = document.getElementById('container');
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.25, 10);
-    
-    // Configurar la posición inicial de la cámara
-    camera.position.set(1, 1, 1);  // Ajusta estos valores según tus necesidades
+    camera.position.set(0, 0, 0.1);  // Ajuste inicial de la cámara
 
     scene = new THREE.Scene();
 
@@ -32,14 +30,16 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
-    container.appendChild(renderer.domElement);
 
     const vrButton = VRButton.createButton(renderer);
-    vrButton.style.display = 'none';
+    vrButton.style.display = 'none';  // Ocultar el botón VR por defecto
     const vrMenuButton = document.getElementById('vr-btn');
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
+
+    container.appendChild(renderer.domElement);
+    container.appendChild(vrButton);
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = true;
@@ -47,16 +47,14 @@ function init() {
     controls.enablePan = false;
     controls.rotateSpeed = -0.3;
 
-    // Configurar el objetivo de los controles y actualizar
-    controls.target.set(0, 0, 0);  // Ajusta si es necesario
+    controls.target.set(0, 0, 0);  // Ajuste del objetivo inicial de los controles
     controls.update();
 
     window.addEventListener('resize', onWindowResize);
 
-    // Solicitar activar sonido
     const muteBtn = document.getElementById('mute-btn');
-    $(document).ready(function() {
-        var answer = confirm("¿Desea activar el sonido?");
+    $(document).ready(function () {
+        const answer = confirm("¿Desea activar el sonido?");
         if (answer) {
             video.muted = false;
         } else {
@@ -66,7 +64,6 @@ function init() {
         video.play();
     });
 
-    // Usar setAnimationLoop para manejar el renderizado en modo VR
     renderer.setAnimationLoop(animate);
 }
 
