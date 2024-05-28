@@ -191,7 +191,7 @@ function onClickButton(event) {
     const intersects4 = raycaster.intersectObject(buttonInfo);
 
     if (intersects.length > 0) {
-        window.location.href = 'entradasal.html';
+        window.location.href = 'entrada.html';
     }
     if (intersects2.length > 0) {
         window.location.href = 'muelle.html';

@@ -108,15 +108,16 @@ function init() {
     vrMenuButton.addEventListener('click', () => {
         vrButton.click();
     });
-    document.body.appendChild(renderer.domElement);
+    container.appendChild( renderer.domElement );
     controls = new OrbitControls(camera, renderer.domElement);
+    window.addEventListener('resize', onWindowResize);
 
     controls.enableZoom = true; 
     controls.zoomSpeed = 0.3; 
     controls.enablePan = false;
     controls.rotateSpeed = -0.3;
 
-    window.addEventListener('resize', onWindowResize);
+    
     renderer.domElement.addEventListener('click', onClickButton);
     renderer.domElement.addEventListener('wheel', onDocumentMouseWheel);
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove);
@@ -126,7 +127,8 @@ function init() {
     renderer.domElement.addEventListener('touchend', onTouchEnd, false);
 
 }
-//-------------------------------------------
+
+//----------------------------------------------------------------
 
 // Eventos táctiles para zoom en dispositivos móviles
 function onTouchStart(event) {
@@ -157,6 +159,7 @@ function getPinchDistance(event) {
     const dy = event.touches[0].clientY - event.touches[1].clientY;
     return Math.sqrt(dx * dx + dy * dy);
 }
+
 
 //-----Darle a las esferas la funcionalidad de botón---------------
 
@@ -240,7 +243,7 @@ function onDocumentMouseMove(event) {
 
 function updateTextPosition(object, textElement) {
     const vector = new THREE.Vector3();
-    vector.setFromMatrixPosition(object.matrixWorld);
+    vector.setFromMatrixPosition(object.matrixWorld); 
     vector.project(camera); 
 
     const widthHalf = window.innerWidth / 2;
@@ -287,7 +290,7 @@ function render(scene) {
     // Rotación automática solo si no hay interacción del mouse
     if (renderer.xr.isPresenting === false && animationEnabled) {
         //const time = clock.getElapsedTime();
-        camera.rotation.y -= 0.0007;
+        camera.rotation.y += 0.0007;
         //camera.position.x += 0.001;
         //camera.position.z += 0.001;
     }

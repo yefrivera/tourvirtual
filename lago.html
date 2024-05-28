@@ -64,7 +64,7 @@
 
          <script>
             window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['muelle.html','entradasal.html','salinas.html']; 
+                const pagesToPreload = ['muelle.html','entrada.html','salinas.html']; 
                 pagesToPreload.forEach(page => {
                 const nextPage = document.createElement('link');
                 nextPage.rel = 'prefetch';
@@ -85,7 +85,7 @@
         const loadingOverlay = document.getElementById('loading-overlay3');
         loadingOverlay.addEventListener('click', function() {
             loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
-            //window.location.href = ['entradasal.html','muelle.html','salinas.html']; 
+            //window.location.href = ['entrada.html','muelle.html','salinas.html']; 
             });
         });
     </script>

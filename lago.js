@@ -175,7 +175,7 @@ function onClickButton(event) {
         window.location.href = 'salinas.html';
     }
     if (intersects2.length > 0) {
-        window.location.href = 'entradasal.html';
+        window.location.href = 'entrada.html';
     }
     if (intersects3.length > 0) {
         window.location.href = 'muelle.html';

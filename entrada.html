@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Muelle</title>
+        <title>Entrada Salinas</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="style.css">
@@ -9,13 +9,13 @@
     <body>
         <div id="container"></div>
 
-        <div id="loading-overlay2">
+        <div id="overlay1">
             <div class="spinner"></div>
-            <p>Los muelles abastecen culturas</p>
+            <p>¿Cómo llegar a Salinas?</p>
         </div>
 
         <div id="textOverlay1" class="text-overlay">Salinas</div>
-        <div id="textOverlay2" class="text-overlay">Entrada Salinas</div>
+        <div id="textOverlay2" class="text-overlay">Muelle</div>
         <div id="textOverlay3" class="text-overlay">Lago</div>
         
         <h1></h1>
@@ -59,12 +59,12 @@
             }
          </script>
 
-         <script type="module" src="./muelle.js"></script> 
+         <script type="module" src="./entrada.js"></script> 
          <script type="module" src="./menu.js"></script> 
 
          <script>
             window.addEventListener('DOMContentLoaded', () => {
-                const pagesToPreload = ['salinas.html', 'entrada.html','lago.html']; 
+                const pagesToPreload = ['salinas.html', 'muelle.html','lago.html']; 
                 pagesToPreload.forEach(page => {
                 const nextPage = document.createElement('link');
                 nextPage.rel = 'prefetch';
@@ -77,16 +77,16 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(window).on('load', function() {
-                $('#loading-overlay2').fadeOut('slow'); 
+                $('#overlay1').fadeOut('slow'); 
             });
         </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const loadingOverlay = document.getElementById('loading-overlay2');
+        const loadingOverlay = document.getElementById('overlay1');
         loadingOverlay.addEventListener('click', function() {
             loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'; 
-            //window.location.href = ['salinas.html','entrada.html','lago.html']; 
+            //window.location.href = ['salinas.html','muelle.html','lago.html']; 
         });
     });
     </script>
