@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
 import { VRButton } from 'https://unpkg.com/three@0.159.0/examples/jsm/webxr/VRButton.js';
 
-let camera, scene, renderer, controls;
+let camera, scene, renderer, controls, video, texture, mesh;
 
 init();
 
@@ -17,14 +17,12 @@ function init() {
     const geometry = new THREE.SphereGeometry(5, 60, 40);
     geometry.scale(-1, 1, 1);  // Invertir la geometría en el eje x para que todas las caras apunten hacia adentro
 
-    const video = document.getElementById('video');
-    video.play();
-
-    const texture = new THREE.VideoTexture(video);
+    video = document.getElementById('video');
+    texture = new THREE.VideoTexture(video);
     texture.colorSpace = THREE.SRGBColorSpace;
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
-    const mesh = new THREE.Mesh(geometry, material);
+    mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -40,6 +38,8 @@ function init() {
     //container.appendChild(vrButton);
     controls = new OrbitControls(camera, renderer.domElement);
     window.addEventListener('resize', onWindowResize);
+    
+    video.play();
 
     controls.enableZoom = true;
     controls.zoomSpeed = 0.3;
@@ -63,8 +63,8 @@ function init() {
         } else {
             video.muted = true;
             muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+            video.play();
         }
-        video.play();
     });
 
     renderer.setAnimationLoop(animate);
@@ -75,6 +75,8 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+
 
 function animate() {
     controls.update();  // Actualizar OrbitControls
