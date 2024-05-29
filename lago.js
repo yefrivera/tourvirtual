@@ -40,7 +40,7 @@ function init() {
     sphereGeometry.scale(-1, 1, 1); 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.setPath('./textures/');
-    const texture = textureLoader.load('X3.jpg', function (texture) {
+    const texture = textureLoader.load('X3.JPG', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
 
