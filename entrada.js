@@ -87,7 +87,7 @@ function init() {
 
     const textureLoader3 = new THREE.TextureLoader();
     textureLoader3.setPath('./textures/');
-    const texture3 = textureLoader3.load('lago.jpg', function (texture) {
+    const texture3 = textureLoader3.load('X3.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
     const material3 = new THREE.MeshBasicMaterial({ map: texture3 });
