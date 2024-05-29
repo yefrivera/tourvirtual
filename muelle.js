@@ -18,6 +18,9 @@ let initialZoom = 1;
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+const muteBtn = document.getElementById('mute-btn');
+muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+
 
 init();
 animate();

@@ -21,6 +21,8 @@ let initialZoom = 1;
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+const muteBtn = document.getElementById('mute-btn');
+muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
 
 init();
 animate();
@@ -234,12 +236,30 @@ function onClickButton(event) {
     videoControls.appendChild(closeButton);
     document.body.appendChild(videoControls);*/
 
+    //--------muted------------------------
+    
+
+
+    
+
+    // Agregar un evento de clic al botón "muted" para controlar el estado de silencio del video y cambiar la imagen
+    muteBtn.addEventListener('click', function() {
+        if (video.muted) {
+            video.muted = false;
+            // Cambiar la imagen a "unmuted"
+            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-original-src');
+        } else {
+            video.muted = true;
+            // Cambiar la imagen a "muted"
+            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+        }
+    });
+
     const video = document.createElement('video');
     video.src = './videos/cabaña1.mp4';
     video.crossOrigin = 'anonymous';
     video.loop = false;
     video.muted = false;
-    
 
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.minFilter = THREE.LinearFilter;
@@ -261,28 +281,16 @@ function onClickButton(event) {
     video.play();
     videoMesh.rotation.set(rotationX, rotationY, rotationZ);
     scene.add(videoMesh);
-
-    //--------muted------------------------
     
-    const muteBtn = document.getElementById('mute-btn');
 
-    // Agregar un evento de clic al botón "muted" para controlar el estado de silencio del video y cambiar la imagen
-    muteBtn.addEventListener('click', function() {
-        if (video.muted) {
-            video.muted = false;
-            // Cambiar la imagen a "unmuted"
-            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-original-src');
-        } else {
-            video.muted = true;
-            // Cambiar la imagen a "muted"
-            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
-        }
-    });
+
 
     }
 }
 
-
+buttonInfo.addEventListener('click', function() {
+    muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-original-src');
+});
 
 //-------------ZOOM-------------------------------------------
 
