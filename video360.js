@@ -59,6 +59,7 @@ function init() {
         const answer = confirm("¿Desea activar el sonido?");
         if (answer) {
             video.muted = false;
+            video.play();
         } else {
             video.muted = true;
             muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
