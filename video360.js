@@ -10,7 +10,7 @@ function init() {
     const container = document.getElementById('container');
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.25, 10);
-    camera.position.set(0, 0, 0.1);  // Ajuste inicial de la cámara
+    camera.position.set(0.8, 0, 0.1);  // Ajuste inicial de la cámara
 
     scene = new THREE.Scene();
 
@@ -51,13 +51,14 @@ function init() {
 
     // Escuchar el evento 'end' de la sesión XR para restablecer la posición de la cámara
     renderer.xr.addEventListener('sessionend', () => {
-        camera.position.set(0, 0, 0.1);  // Restablecer la posición inicial de la cámara
+        camera.position.set(0.8, 0, 0.1);  // Restablecer la posición inicial de la cámara
     });
 
     const muteBtn = document.getElementById('mute-btn');
     video.muted = true;
     muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
     video.play();
+
     renderer.setAnimationLoop(animate);
 }
 
