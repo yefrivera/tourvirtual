@@ -40,7 +40,7 @@ function init() {
     sphereGeometry.scale(-1, 1, 1); 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.setPath('./textures/');
-    const texture = textureLoader.load('popayán.jpg', function (texture) {
+    const texture = textureLoader.load('360p.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
 
