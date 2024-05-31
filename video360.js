@@ -55,18 +55,9 @@ function init() {
     });
 
     const muteBtn = document.getElementById('mute-btn');
-    $(document).ready(function () {
-        const answer = confirm("¿Desea activar el sonido?");
-        if (answer) {
-            video.muted = false;
-            video.play();
-        } else {
-            video.muted = true;
-            muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
-            video.play();
-        }
-    });
-
+    video.muted = true;
+    muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+    video.play();
     renderer.setAnimationLoop(animate);
 }
 
