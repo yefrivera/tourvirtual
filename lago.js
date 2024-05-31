@@ -88,7 +88,7 @@ function init() {
 
     const textureLoader3 = new THREE.TextureLoader();
     textureLoader3.setPath('./textures/');
-    const texture3 = textureLoader3.load('muelle.jpg', function (texture) {
+    const texture3 = textureLoader3.load('popayán.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
     const material3 = new THREE.MeshBasicMaterial({ map: texture3 });
@@ -181,7 +181,7 @@ function onClickButton(event) {
         window.location.href = 'entrada.html';
     }
     if (intersects3.length > 0) {
-        window.location.href = 'muelle.html';
+        window.location.href = 'popayan.html';
     }
 }
 

@@ -22,7 +22,7 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 const muteBtn = document.getElementById('mute-btn');
-muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
+//muteBtn.querySelector('img').src = muteBtn.querySelector('img').getAttribute('data-alt-src');
 
 init();
 animate();
@@ -73,7 +73,7 @@ function init() {
 
     const textureLoader2 = new THREE.TextureLoader();
     textureLoader2.setPath('./textures/');
-    const texture2 = textureLoader2.load('muelle.jpg', function (texture) {
+    const texture2 = textureLoader2.load('popayán.jpg', function (texture) {
         texture.colorSpace= THREE.SRGBColorSpace; 
     });
     const material2 = new THREE.MeshBasicMaterial({ map: texture2 });
@@ -196,7 +196,7 @@ function onClickButton(event) {
         window.location.href = 'entrada.html';
     }
     if (intersects2.length > 0) {
-        window.location.href = 'muelle.html';
+        window.location.href = 'popayan.html';
     }
     if (intersects3.length > 0) {
         window.location.href = 'lago.html';
