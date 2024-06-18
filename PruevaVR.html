@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PruevaVR</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="prueba.css">
+</head>
+<body>
+    <div id="container"></div>
+    
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p>El Parque Caldas</p>
+    </div>
+
+    <h1></h1>
+    
+    <div id="content"></div>
+
+    <div class="off-screen-menu">
+        <ul>
+        <li><a href="#" id="vr-btn"><img src="./textures/VR.png"/></a></li>
+          <li>
+            <a href="#" id="mute-btn">
+              <img id="mute-icon" class="normal" src="./textures/unmuted.png" data-original-src="./textures/unmuted.png" data-alt-src="./textures/muted.png" />
+            </a>
+          </li>
+          <li><a href="#" id="expand-btn"><img class="normal" src="./textures/fullscreen.png" data-original-src="./textures/fullscreen.png" data-alt-src="./textures/reducescreen.png" /></a></li>
+          <li><a href="#" class="share-x"><img src="./textures/x.png"/></a></li>
+          <li><a href="#" class="share-facebook"><img src="./textures/f.png"/></a></li>
+        </ul>
+    </div>
+
+    <div class="button-container">
+        <a href="index.html" class="image-button">
+            <img src="./textures/home.png" alt="Button Image">
+        </a>
+    </div>
+
+    <nav>
+        <div class="ham-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <script type="importmap">
+        {
+           "imports": {
+              "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+              "three/addons/": "./jsm/"                  
+           }
+        }
+    </script>
+   
+    <script type="module" src="./pruebaVR.js"></script> 
+    <script type="module" src="./menu.js"></script> 
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const pagesToPreload = ['popayan.html','entrada.html','lago.html']; 
+            pagesToPreload.forEach(page => {
+            const nextPage = document.createElement('link');
+            nextPage.rel = 'prefetch';
+            nextPage.href = page;
+            document.head.appendChild(nextPage);
+        });});
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            $('#loading-overlay').fadeOut('slow'); 
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.addEventListener('click', function() {
+                loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+            });
+        });
+    </script>
+
+</body> 
+</html>

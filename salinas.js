@@ -404,6 +404,3 @@ function render(scene) {
         //camera.position.z += 0.001;
     }
 }
-
-
-
